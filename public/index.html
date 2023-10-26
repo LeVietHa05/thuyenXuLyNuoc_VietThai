@@ -182,19 +182,21 @@
       Bảng điều khiển
     </div>
     <div class="d-flex justify-content-around">
-      <div class="d-flex flex-column-reverse border border-primary bg-lightBlue2 rounded p-3">
+      <!-- for easier control, only use one slider to change the speed -->
+      <!-- <div class="d-flex flex-column-reverse border border-primary bg-lightBlue2 rounded p-3">
         <label for="leftMotor">leftMotor Speed</label>
         <input type="range" name="leftMotor" id="leftMotor" min="0" max="255" value="0">
-      </div>
+      </div> -->
       <div class="d-flex flex-column-reverse border border-primary bg-lightBlue2 rounded p-3">
         <!-- now we only have two motor (left and right), but the right motor is connected to the old pin of middle motor so we keep all the ids-->
-        <label for="middleMotor">rightMotor Speed</label>
+        <label for="middleMotor">Speed</label>
         <input type="range" name="middleMotor" id="middleMotor" min="0" max="255" value="0">
       </div>
     </div>
     <div class="d-flex justify-content-around mt-4">
-      <button id="turnLeft" class="rounded ">Turn left (hold)</button>
-      <button id="turnRight" class="rounded">Turn right (hold)</button>
+      <button id="turnLeft" class="rounded ">Turn left</button>
+      <button id="Straight" class="rounded ">Straight</button>
+      <button id="turnRight" class="rounded">Turn right</button>
     </div>
     <div class="d-flex justify-content-around">
       <button id="stop" class="bg-danger rounded">Stop</button>
@@ -221,11 +223,12 @@
   <script>
     const controlPad = document.getElementById("controlPad");
     const controlPadShow = document.getElementById("controlPadShow");
-    const leftMotor = document.getElementById("leftMotor");
+    // const leftMotor = document.getElementById("leftMotor");
     const middleMotor = document.getElementById("middleMotor");
     // const rightMotor = document.getElementById("rightMotor");
     const turnLeft = document.getElementById("turnLeft");
     const turnRight = document.getElementById("turnRight");
+    const straight = document.getElementById("Straight");
     const stop = document.getElementById("stop");
     const pump_on = document.getElementById("pump_on");
     const pump_off = document.getElementById("pump_off");
@@ -264,18 +267,18 @@
       modeChange(3);
     })
 
-    function modeChange (mode) {
+    function modeChange(mode) {
       if (mode == 1) {
         mode_current.innerHTML = "Comfort Mode";
-        leftMotor.max = Math.floor(255 * 60 /100);
+        // leftMotor.max = Math.floor(255 * 60 /100);
         middleMotor.max = Math.floor(255 * 60 / 100);
       } else if (mode == 2) {
         mode_current.innerHTML = "Normal Mode";
-        leftMotor.max = Math.floor(255 * 80 / 100);
+        // leftMotor.max = Math.floor(255 * 80 / 100);
         middleMotor.max = Math.floor(255 * 80 / 100);
       } else if (mode == 3) {
         mode_current.innerHTML = "Sport Mode";
-        leftMotor.max = 255;
+        // leftMotor.max = 255;
         middleMotor.max = 255;
       }
     }
@@ -341,31 +344,31 @@
       control.turnLeft = 1;
       control.turnRight = 0;
       socket.emit("/web/control", control)
-    })
-
-    turnLeft.addEventListener("mouseup", () => {
-      control.turnLeft = 0;
-      socket.emit("/web/control", control)
+      console.log(control)
     })
 
     turnRight.addEventListener("mousedown", () => {
       control.turnRight = 1;
       control.turnLeft = 0;
       socket.emit("/web/control", control)
+      console.log(control)
     })
 
-    turnRight.addEventListener("mouseup", () => {
+    straight.addEventListener("click", () => {
       control.turnRight = 0;
+      control.turnLeft = 0;
       socket.emit("/web/control", control)
+      console.log(control)
     })
 
-    leftMotor.addEventListener("change", () => {
-      control.leftMotor = leftMotor.value;
-      socket.emit("/web/control", control)
-    })
+    // leftMotor.addEventListener("change", () => {
+    //   control.leftMotor = leftMotor.value;
+    //   socket.emit("/web/control", control)
+    // })
 
     middleMotor.addEventListener("change", () => {
       control.middleMotor = middleMotor.value;
+      control.leftMotor = middleMotor.value; //same speed for both motor
       socket.emit("/web/control", control)
     })
 
@@ -378,7 +381,7 @@
       control.leftMotor = 0;
       control.middleMotor = 0;
       control.rightMotor = 0;
-      leftMotor.value = 0;
+      // leftMotor.value = 0; 
       middleMotor.value = 0;
       // rightMotor.value = 0;
       socket.emit("/web/control", control)
