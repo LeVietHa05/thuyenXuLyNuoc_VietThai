@@ -30,6 +30,13 @@
             <div id="temp" class="h1">25</div>
             <div>(độ C)</div>
             <div id="temp_assessment">Good</div>
+            <script>
+              if (temp.innerHTML > 30) {
+                temp_assessment.innerHTML = "Hot";
+              } else if (temp.innerHTML < 20) {
+                temp_assessment.innerHTML = "Cold";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="tempChart"> </canvas></div>
         </div>
@@ -41,6 +48,13 @@
             <div id="humi" class="h1">50</div>
             <div>(%)</div>
             <div id="humi_assessment">Good</div>
+            <script>
+              if (humi.innerHTML > 60) {
+                humi_assessment.innerHTML = "Wet";
+              } else if (humi.innerHTML < 40) {
+                humi_assessment.innerHTML = "Dry";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="humiChart"> </canvas></div>
         </div>
@@ -54,6 +68,13 @@
             <div id="co2" class="h1">1</div>
             <div>(ppm)</div>
             <div id="co2_assessment">Good</div>
+            <script>
+              if (co2.innerHTML > 1000) {
+                co2_assessment.innerHTML = "Bad";
+              } else if (co2.innerHTML < 800) {
+                co2_assessment.innerHTML = "Good";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="co2Chart"> </canvas></div>
         </div>
@@ -65,6 +86,13 @@
             <div id="co" class="h1">0.4</div>
             <div>(ppm)</div>
             <div id="co_assessment">Good</div>
+            <script>
+              if (co.innerHTML > 100) {
+                co_assessment.innerHTML = "Bad";
+              } else if (co.innerHTML < 50) {
+                co_assessment.innerHTML = "Good";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="coChart"> </canvas></div>
         </div>
@@ -78,6 +106,13 @@
             <div id="nh4" class="h1">1</div>
             <div>(ppm)</div>
             <div id="nh4_assessment">Good</div>
+            <script>
+              if (nh4.innerHTML > 100) {
+                nh4_assessment.innerHTML = "Bad";
+              } else if (nh4.innerHTML < 50) {
+                nh4_assessment.innerHTML = "Good";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="nh4Chart"> </canvas></div>
         </div>
@@ -85,10 +120,17 @@
       <div class="col rounded bg-lightPurple">
         <div class="row p-3">
           <div class="col rounded text-center p-1 bg-lightPurple2">
-            <div class="h2">Dust</div>
+            <div class="h2">Bụi Mịn</div>
             <div id="dust" class="h1">0.4</div>
             <div>(ppm)</div>
             <div id="dust_assessment">Good</div>
+            <script>
+              if (dust.innerHTML > 100) {
+                dust_assessment.innerHTML = "Bad";
+              } else if (dust.innerHTML < 50) {
+                dust_assessment.innerHTML = "Good";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dustChart"> </canvas></div>
         </div>
@@ -104,6 +146,13 @@
             <div id="water_temp" class="h1">25</div>
             <div>(độ C)</div>
             <div id="water_temp_assessment">Good</div>
+            <script>
+              if (water_temp.innerHTML > 30) {
+                water_temp_assessment.innerHTML = "Hot";
+              } else if (water_temp.innerHTML < 20) {
+                water_temp_assessment.innerHTML = "Cold";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="water_tempChart"> </canvas>
           </div>
@@ -115,7 +164,14 @@
             <div class="h2">pH</div>
             <div id="ph" class="h1">7.0</div>
             <div>(---)</div>
-            <div id="ph_assessment">No assessment</div>
+            <div id="ph_assessment">Good</div>
+            <script>
+              if (ph.innerHTML > 8.5) {
+                ph_assessment.innerHTML = "Alkaline";
+              } else if (ph.innerHTML < 6.0) {
+                ph_assessment.innerHTML = "Acidic";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="phChart"> </canvas></div>
         </div>
@@ -129,6 +185,13 @@
             <div id="tds" class="h1">50</div>
             <div>(ppm)</div>
             <div id="tds_assessment">Good</div>
+            <script>
+              if (tds.innerHTML > 1000) {
+                tds_assessment.innerHTML = "Bad";
+              } else if (tds.innerHTML < 800) {
+                tds_assessment.innerHTML = "Good";
+              }
+            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="tdsChart"> </canvas></div>
         </div>
@@ -308,6 +371,15 @@
     const windSpeed = document.getElementById("windSpeed");
     const flow = document.getElementById("flow");
     const wlevel = document.getElementById("wlevel");
+    const temp_assessment = document.getElementById("temp_assessment");
+    const humi_assessment = document.getElementById("humi_assessment");
+    const co2_assessment = document.getElementById("co2_assessment");
+    const co_assessment = document.getElementById("co_assessment");
+    const nh4_assessment = document.getElementById("nh4_assessment");
+    const dust_assessment = document.getElementById("dust_assessment");
+    const water_temp_assessment = document.getElementById("water_temp_assessment");
+    const ph_assessment = document.getElementById("ph_assessment");
+    const tds_assessment = document.getElementById("tds_assessment");
 
 
     var socket = io();
