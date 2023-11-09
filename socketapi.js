@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
 
     socket.on("/web/control", (data) => {
         console.log(`[/web/control] from ${data.clientID} via socket id: ${socket.id}`);
-        console.log(data);
+        // console.log(data);
         let newData = "";
         for (let val in data) {
             newData += data[val];

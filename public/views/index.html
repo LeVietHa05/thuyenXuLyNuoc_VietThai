@@ -234,6 +234,40 @@
         </div>
       </div>
     </div>
+
+    <div class=" row d-flex  flex-wrap mt-3">
+      <div class="col">
+        <label for="ph_threshold">Set pH threshold: </label>
+        <input type="text" value="7.0" id="ph_threshold">
+        <label for="windSpeedThreshold">Set windSpeed : </label>
+        <input type="text" value="10.7" id="windSpeedThreshold">
+        <label for="tdsThreshold">Set tdsThreshold : </label>
+        <input type="text" value="1000" id="tdsThreshold">
+      </div>
+      <div class="col">
+        <label for="rainThreshold">Set rainThreshold: </label>
+        <input type="text" value="50" id="rainThreshold">
+        <label for="tempThreshold">Set tempThreshold: </label>
+        <input type="text" value="35" id="tempThreshold">
+        <label for="humiUpThreshold">Set humiUpThreshold: </label>
+        <input type="text" value="70" id="humiUpThreshold">
+      </div>
+      <div class="col">
+        <label for="humiLowThreshold">Set humiLowThreshold: </label>
+        <input type="text" value="40" id="humiLowThreshold">
+        <label for="co2Threshold">Set co2Threshold: </label>
+        <input type="text" value="1000" id="co2Threshold">
+        <label for="coThreshold">Set coThreshold: </label>
+        <input type="text" value="50" id="coThreshold">
+      </div>
+      <div class="col">
+        <label for="buiUpThreshold">Set buiUpThreshold: </label>
+        <input type="text" value="35" id="buiUpThreshold">
+        <label for="buiLowThreshold">Set buiLowThreshold: </label>
+        <input type="text" value="12" id="buiLowThreshold">
+      </div>
+    </div>
+    <button id="set_envir" class="rounded bg-success mt-3" style="width: 20%; padding: 4px;">Set</button>
   </div>
 
   <div id="controlPadShow" class="pos-fixed middle-y right-0 border rounded centered-text ">
@@ -268,11 +302,6 @@
       <button id="pump_on" class="rounded bg-success">Turn pump on</button>
       <button id="pump_off" class="rounded bg-danger">Turn pump off</button>
     </div>
-    <div class="d-flex justify-content-center mt-3">
-      <label for="ph_threshold">Set pH threshold: </label>
-      <input type="text" value="7.0" id="ph_threshold">
-      <button id="set_ph" class="rounded bg-primary">Set</button>
-    </div>
 
     <div class="d-flex justify-content-center mt-3">
       <div class="h3">Current mode: <span id="mode_current">Comfort Mode</span></div>
@@ -295,8 +324,18 @@
     const stop = document.getElementById("stop");
     const pump_on = document.getElementById("pump_on");
     const pump_off = document.getElementById("pump_off");
-    const set_ph = document.getElementById("set_ph");
+    const set_envir = document.getElementById("set_envir");
     const ph_threshold = document.getElementById("ph_threshold");
+    const windSpeedThreshold = document.getElementById("windSpeedThreshold");
+    const tdsThreshold = document.getElementById("tdsThreshold");
+    const rainThreshold = document.getElementById("rainThreshold");
+    const tempThreshold = document.getElementById("tempThreshold");
+    const humiUpThreshold = document.getElementById("humiUpThreshold");
+    const humiLowThreshold = document.getElementById("humiLowThreshold");
+    const co2Threshold = document.getElementById("co2Threshold");
+    const coThreshold = document.getElementById("coThreshold");
+    const buiUpThreshold = document.getElementById("buiUpThreshold");
+    const buiLowThreshold = document.getElementById("buiLowThreshold");
     const mode_comfort_btn = document.getElementById("mode_comfort_btn");
     const mode_normal_btn = document.getElementById("mode_normal_btn");
     const mode_sport_btn = document.getElementById("mode_sport_btn");
@@ -356,7 +395,17 @@
       turnLeft: 0,
       turnRight: 0,
       pump: 0,
-      phThreshold: 7.0
+      phThreshold: 7.0,
+      windSpeedThreshold: 10.7,
+      tdsThreshold: 1000,
+      rainThreshold: 50,
+      tempThreshold: 50,
+      humiUpThreshold: 70,
+      humiLowThreshold: 40,
+      co2Threshold: 1000,
+      coThreshold: 50,
+      buiUpThreshold: 35,
+      buiLowThreshold: 12,
     }
 
     const temp = document.getElementById("temp");
@@ -433,21 +482,11 @@
       console.log(control)
     })
 
-    // leftMotor.addEventListener("change", () => {
-    //   control.leftMotor = leftMotor.value;
-    //   socket.emit("/web/control", control)
-    // })
-
     middleMotor.addEventListener("change", () => {
       control.middleMotor = middleMotor.value;
       control.leftMotor = middleMotor.value; //same speed for both motor
       socket.emit("/web/control", control)
     })
-
-    // rightMotor.addEventListener("change", () => {
-    //   control.rightMotor = rightMotor.value;
-    //   socket.emit("/web/control", control)
-    // })
 
     stop.addEventListener("click", () => {
       control.leftMotor = 0;
@@ -469,12 +508,39 @@
       socket.emit("/web/control", control)
     })
 
-    set_ph.addEventListener("click", () => {
+    set_envir.addEventListener("click", () => {
       control.phThreshold = ph_threshold.value;
+      control.windSpeedThreshold = windSpeedThreshold.value;
+      control.tdsThreshold = tdsThreshold.value;
+      control.rainThreshold = rainThreshold.value;
+      control.tempThreshold = tempThreshold.value;
+      control.humiUpThreshold = humiUpThreshold.value;
+      control.humiLowThreshold = humiLowThreshold.value;
+      control.co2Threshold = co2Threshold.value;
+      control.coThreshold = coThreshold.value;
+      control.buiUpThreshold = buiUpThreshold.value;
+      control.buiLowThreshold = buiLowThreshold.value;
+      
       if (control.phThreshold < 0 || control.phThreshold > 14) {
         alert("pH threshold must be between 0 and 14")
         return;
       }
+
+      if (control.windSpeedThreshold < 0 || control.windSpeedThreshold > 100) {
+        alert("windSpeed threshold must be between 0 and 100")
+        return;
+      }
+
+      if (control.humiUpThreshold < 0 || control.humiUpThreshold > 100 || control.humiUpThreshold < control.humiLowThreshold) {
+        alert("humiThreshold must be between 0 and 100 || humiUpThreshold must be greater than humiLowThreshold")
+        return;
+      }
+
+      if (control.buiLowThreshold < 0  || control.buiUpThreshold < control.buiLowThreshold) {
+        alert("buiThreshold must larger than 0 || buiUpThreshold must be greater than buiLowThreshold")
+        return;
+      }
+
       socket.emit("/web/control", control)
     })
 
