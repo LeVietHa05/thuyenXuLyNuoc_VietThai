@@ -120,7 +120,7 @@
       <div class="col rounded bg-lightPurple">
         <div class="row p-3">
           <div class="col rounded text-center p-1 bg-lightPurple2">
-            <div class="h2">Bụi Mịn</div>
+            <div class="h2">Bụi mịn</div>
             <div id="dust" class="h1">0.4</div>
             <div>(ppm)</div>
             <div id="dust_assessment">Good</div>
@@ -340,6 +340,11 @@
     const mode_normal_btn = document.getElementById("mode_normal_btn");
     const mode_sport_btn = document.getElementById("mode_sport_btn");
     const mode_current = document.getElementById("mode_current");
+
+    if (!winddow.location.href.includes("admin")) {
+      controlPadShow.style.display = "none";
+    }
+
     //show control pad on click
     controlPadShow.addEventListener("click", () => {
       console.log("click")
@@ -573,7 +578,7 @@
       };
     }
 
-    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "co", "nh4", "dust", "Nhiệt độ nước", "pH", "TDS", "Tốc độ gió", "Lưu lượng mưa", "Mực nước"]
+    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "nh4", "Bụi mịn", "Nhiệt độ nước", "pH", "TDS", "Tốc độ gió", "Lưu lượng mưa", "Mực nước"]
     let data = [25, 50, 1, 0.4, 1, 0.4, 25, 7.0, 50, 2, 1, 0.4]
     let colors = ["red", "green", "blue", "yellow", "cyan", "purple", "red", "green", "blue", "yellow", "cyan", "purple"]
     let chartids = ["tempChart", "humiChart", "co2Chart", "coChart", "nh4Chart", "dustChart", "water_tempChart", "phChart", "tdsChart", "windSpeedChart", "flowChart", "wlevelChart"]
