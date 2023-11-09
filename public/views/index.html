@@ -30,13 +30,6 @@
             <div id="temp" class="h1">25</div>
             <div>(độ C)</div>
             <div id="temp_assessment">Good</div>
-            <script>
-              if (temp.innerHTML > 30) {
-                temp_assessment.innerHTML = "Hot";
-              } else if (temp.innerHTML < 20) {
-                temp_assessment.innerHTML = "Cold";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="tempChart"> </canvas></div>
         </div>
@@ -48,13 +41,6 @@
             <div id="humi" class="h1">50</div>
             <div>(%)</div>
             <div id="humi_assessment">Good</div>
-            <script>
-              if (humi.innerHTML > 60) {
-                humi_assessment.innerHTML = "Wet";
-              } else if (humi.innerHTML < 40) {
-                humi_assessment.innerHTML = "Dry";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="humiChart"> </canvas></div>
         </div>
@@ -68,13 +54,6 @@
             <div id="co2" class="h1">1</div>
             <div>(ppm)</div>
             <div id="co2_assessment">Good</div>
-            <script>
-              if (co2.innerHTML > 1000) {
-                co2_assessment.innerHTML = "Bad";
-              } else if (co2.innerHTML < 800) {
-                co2_assessment.innerHTML = "Good";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="co2Chart"> </canvas></div>
         </div>
@@ -86,13 +65,6 @@
             <div id="co" class="h1">0.4</div>
             <div>(ppm)</div>
             <div id="co_assessment">Good</div>
-            <script>
-              if (co.innerHTML > 100) {
-                co_assessment.innerHTML = "Bad";
-              } else if (co.innerHTML < 50) {
-                co_assessment.innerHTML = "Good";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="coChart"> </canvas></div>
         </div>
@@ -106,13 +78,6 @@
             <div id="nh4" class="h1">1</div>
             <div>(ppm)</div>
             <div id="nh4_assessment">Good</div>
-            <script>
-              if (nh4.innerHTML > 100) {
-                nh4_assessment.innerHTML = "Bad";
-              } else if (nh4.innerHTML < 50) {
-                nh4_assessment.innerHTML = "Good";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="nh4Chart"> </canvas></div>
         </div>
@@ -124,13 +89,6 @@
             <div id="dust" class="h1">0.4</div>
             <div>(ppm)</div>
             <div id="dust_assessment">Good</div>
-            <script>
-              if (dust.innerHTML > 100) {
-                dust_assessment.innerHTML = "Bad";
-              } else if (dust.innerHTML < 50) {
-                dust_assessment.innerHTML = "Good";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dustChart"> </canvas></div>
         </div>
@@ -146,13 +104,6 @@
             <div id="water_temp" class="h1">25</div>
             <div>(độ C)</div>
             <div id="water_temp_assessment">Good</div>
-            <script>
-              if (water_temp.innerHTML > 30) {
-                water_temp_assessment.innerHTML = "Hot";
-              } else if (water_temp.innerHTML < 20) {
-                water_temp_assessment.innerHTML = "Cold";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="water_tempChart"> </canvas>
           </div>
@@ -165,13 +116,6 @@
             <div id="ph" class="h1">7.0</div>
             <div>(---)</div>
             <div id="ph_assessment">Good</div>
-            <script>
-              if (ph.innerHTML > 8.5) {
-                ph_assessment.innerHTML = "Alkaline";
-              } else if (ph.innerHTML < 6.0) {
-                ph_assessment.innerHTML = "Acidic";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="phChart"> </canvas></div>
         </div>
@@ -185,13 +129,6 @@
             <div id="tds" class="h1">50</div>
             <div>(ppm)</div>
             <div id="tds_assessment">Good</div>
-            <script>
-              if (tds.innerHTML > 1000) {
-                tds_assessment.innerHTML = "Bad";
-              } else if (tds.innerHTML < 800) {
-                tds_assessment.innerHTML = "Good";
-              }
-            </script>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="tdsChart"> </canvas></div>
         </div>
@@ -237,34 +174,40 @@
 
     <div class=" row d-flex  flex-wrap mt-3">
       <div class="col">
-        <label for="ph_threshold">Set pH threshold: </label>
-        <input type="text" value="7.0" id="ph_threshold">
-        <label for="windSpeedThreshold">Set windSpeed : </label>
+        <label for="phUpThreshold">Set pH upthreshold: </label>
+        <input type="text" value="8.5" id="phUpThreshold">
+        <label for="phLowThreshold">Set pH lowthreshold: </label>
+        <input type="text" value="6.5" id="phLowThreshold">
+        <label for="windSpeedThreshold">Set windSpeed (m/s): </label>
         <input type="text" value="10.7" id="windSpeedThreshold">
         <label for="tdsThreshold">Set tdsThreshold : </label>
         <input type="text" value="1000" id="tdsThreshold">
       </div>
       <div class="col">
-        <label for="rainThreshold">Set rainThreshold: </label>
+        <label for="rainThreshold">Set rainThreshold (mm/8H): </label>
         <input type="text" value="50" id="rainThreshold">
-        <label for="tempThreshold">Set tempThreshold: </label>
-        <input type="text" value="35" id="tempThreshold">
-        <label for="humiUpThreshold">Set humiUpThreshold: </label>
-        <input type="text" value="70" id="humiUpThreshold">
+        <label for="wTempUpThreshold">Set wTempUpThreshold (C): </label>
+        <input type="text" value="23" id="wTempUpThreshold">
+        <label for="wTempLowThreshold">Set wTempLowThreshold (C): </label>
+        <input type="text" value="28" id="wTempLowThreshold">
       </div>
       <div class="col">
-        <label for="humiLowThreshold">Set humiLowThreshold: </label>
+        <label for="humiLowThreshold">Set humiLowThreshold (%): </label>
         <input type="text" value="40" id="humiLowThreshold">
-        <label for="co2Threshold">Set co2Threshold: </label>
+        <label for="humiUpThreshold">Set humiUpThreshold (%): </label>
+        <input type="text" value="70" id="humiUpThreshold">
+        <label for="co2Threshold">Set co2Threshold (ppm): </label>
         <input type="text" value="1000" id="co2Threshold">
-        <label for="coThreshold">Set coThreshold: </label>
+        <label for="coThreshold">Set coThreshold (ppm): </label>
         <input type="text" value="50" id="coThreshold">
       </div>
       <div class="col">
-        <label for="buiUpThreshold">Set buiUpThreshold: </label>
+        <label for="buiUpThreshold">Set buiUpThreshold (ug/l): </label>
         <input type="text" value="35" id="buiUpThreshold">
-        <label for="buiLowThreshold">Set buiLowThreshold: </label>
+        <label for="buiLowThreshold">Set buiLowThreshold (ug/l): </label>
         <input type="text" value="12" id="buiLowThreshold">
+        <label for="tempThreshold">Set tempThreshold (C): </label>
+        <input type="text" value="35" id="tempThreshold">
       </div>
     </div>
     <button id="set_envir" class="rounded bg-success mt-3" style="width: 20%; padding: 4px;">Set</button>
@@ -292,11 +235,11 @@
     </div>
     <div class="d-flex justify-content-around mt-4">
       <button id="turnLeft" class="rounded ">Turn left</button>
-      <button id="Straight" class="rounded ">Straight</button>
+      <button id="straight_btn" class="rounded ">Straight</button>
       <button id="turnRight" class="rounded">Turn right</button>
     </div>
     <div class="d-flex justify-content-around">
-      <button id="stop" class="bg-danger rounded">Stop</button>
+      <button id="stop_btn" class="bg-danger rounded">Stop</button>
     </div>
     <div class="d-flex justify-content-around">
       <button id="pump_on" class="rounded bg-success">Turn pump on</button>
@@ -313,33 +256,6 @@
 
   <!-- normal script -->
   <script>
-    const controlPad = document.getElementById("controlPad");
-    const controlPadShow = document.getElementById("controlPadShow");
-    // const leftMotor = document.getElementById("leftMotor");
-    const middleMotor = document.getElementById("middleMotor");
-    // const rightMotor = document.getElementById("rightMotor");
-    const turnLeft = document.getElementById("turnLeft");
-    const turnRight = document.getElementById("turnRight");
-    const straight = document.getElementById("Straight");
-    const stop = document.getElementById("stop");
-    const pump_on = document.getElementById("pump_on");
-    const pump_off = document.getElementById("pump_off");
-    const set_envir = document.getElementById("set_envir");
-    const ph_threshold = document.getElementById("ph_threshold");
-    const windSpeedThreshold = document.getElementById("windSpeedThreshold");
-    const tdsThreshold = document.getElementById("tdsThreshold");
-    const rainThreshold = document.getElementById("rainThreshold");
-    const tempThreshold = document.getElementById("tempThreshold");
-    const humiUpThreshold = document.getElementById("humiUpThreshold");
-    const humiLowThreshold = document.getElementById("humiLowThreshold");
-    const co2Threshold = document.getElementById("co2Threshold");
-    const coThreshold = document.getElementById("coThreshold");
-    const buiUpThreshold = document.getElementById("buiUpThreshold");
-    const buiLowThreshold = document.getElementById("buiLowThreshold");
-    const mode_comfort_btn = document.getElementById("mode_comfort_btn");
-    const mode_normal_btn = document.getElementById("mode_normal_btn");
-    const mode_sport_btn = document.getElementById("mode_sport_btn");
-    const mode_current = document.getElementById("mode_current");
 
     if (!window.location.href.includes("admin")) {
       controlPadShow.style.display = "none";
@@ -393,70 +309,129 @@
   <!-- socket -->
   <script src="../socket.io/socket.io.js"></script>
   <script>
-    const control = {
+    let envir = {
+      temp: {
+        number: temp,
+        assessment: temp_assessment,
+        threshold: tempThreshold.value
+      },
+      humi: {
+        number: humi,
+        assessment: humi_assessment,
+        threshold: [humiLowThreshold.value, humiUpThreshold.value]
+      },
+      co2: {
+        number: co2,
+        assessment: co2_assessment,
+        threshold: co2Threshold.value
+      },
+      co: {
+        number: co,
+        assessment: co_assessment,
+        threshold: coThreshold.value
+      },
+      dust: {
+        number: dust,
+        assessment: dust_assessment,
+        threshold: [buiLowThreshold.value, buiUpThreshold.value]
+      },
+      wTemp: {
+        number: water_temp,
+        assessment: water_temp_assessment,
+        threshold: [wTempLowThreshold.value, wTempUpThreshold.value]
+      },
+      ph: {
+        number: ph,
+        assessment: ph_assessment,
+        threshold: [phLowThreshold.value, phUpThreshold.value]
+      },
+      tds: {
+        number: tds,
+        assessment: tds_assessment,
+        threshold: tdsThreshold.value
+      },
+      windSpeed: {
+        number: windSpeed,
+        assessment: windSpeed_assessment,
+        threshold: windSpeedThreshold.value
+      },
+      rain: {
+        number: flow,
+        assessment: flow_assessment,
+        threshold: rainThreshold.value
+      },
+      wlevel: {
+        number: wlevel,
+        assessment: wlevel_assessment,
+        threshold: 3
+      },
+      nh4: {
+        number: nh4,
+        assessment: nh4_assessment,
+        threshold: 1
+      }
+    }
+    let control = {
       leftMotor: 0,
       middleMotor: 0,
       rightMotor: 0,
       turnLeft: 0,
       turnRight: 0,
       pump: 0,
-      phThreshold: 7.0,
-      windSpeedThreshold: 10.7,
-      tdsThreshold: 1000,
-      rainThreshold: 50,
-      tempThreshold: 50,
-      humiUpThreshold: 70,
-      humiLowThreshold: 40,
-      co2Threshold: 1000,
-      coThreshold: 50,
-      buiUpThreshold: 35,
-      buiLowThreshold: 12,
+      phLowThreshold: envir.ph.threshold[0].value,
+      phUpThreshold: envir.ph.threshold[1].value,
+      windSpeedThreshold: envir.windSpeed.threshold.value,
+      tdsThreshold: envir.tds.threshold.value,
+      rainThreshold: envir.rain.threshold.value,
+      wTempLowThreshold: envir.wTemp.threshold[0].value,
+      wTempUpThreshold: envir.wTemp.threshold[1].value,
+      humiLowThreshold: envir.humi.threshold[0].value,
+      humiUpThreshold: envir.humi.threshold[1].value,
+      co2Threshold: envir.co2.threshold.value,
+      coThreshold: envir.co.threshold.value,
+      buiLowThreshold: envir.dust.threshold[0].value,
+      buiUpThreshold: envir.dust.threshold[1].value,
+      tempThreshold: envir.temp.threshold.value,
+      wlevelThreshold: envir.wlevel.threshold
     }
 
-    const temp = document.getElementById("temp");
-    const humi = document.getElementById("humi");
-    const co2 = document.getElementById("co2");
-    const co = document.getElementById("co");
-    const nh4 = document.getElementById("nh4");
-    const dust = document.getElementById("dust");
-    const water_temp = document.getElementById("water_temp");
-    const ph = document.getElementById("ph");
-    const tds = document.getElementById("tds");
-    const windSpeed = document.getElementById("windSpeed");
-    const flow = document.getElementById("flow");
-    const wlevel = document.getElementById("wlevel");
-    const temp_assessment = document.getElementById("temp_assessment");
-    const humi_assessment = document.getElementById("humi_assessment");
-    const co2_assessment = document.getElementById("co2_assessment");
-    const co_assessment = document.getElementById("co_assessment");
-    const nh4_assessment = document.getElementById("nh4_assessment");
-    const dust_assessment = document.getElementById("dust_assessment");
-    const water_temp_assessment = document.getElementById("water_temp_assessment");
-    const ph_assessment = document.getElementById("ph_assessment");
-    const tds_assessment = document.getElementById("tds_assessment");
-
-
+    updateControl();
+    updateEnvirThreshold();
     var socket = io();
     socket.on('connect', function () {
       console.log('Connected!');
     });
 
     socket.on("/web/envir", (data) => {
-      temp.innerHTML = data.temp;
-      humi.innerHTML = data.humi;
-      co2.innerHTML = data.co2;
-      co.innerHTML = data.co;
-      nh4.innerHTML = data.NH4;
-      dust.innerHTML = data.dust;
-      water_temp.innerHTML = data.tempDS18B20;
-      ph.innerHTML = data.ph;
-      tds.innerHTML = data.tds;
-      windSpeed.innerHTML = data.windSpeed;
-      flow.innerHTML = data.flow;
-      wlevel.innerHTML = data.waterLevel;
+
+      for (let key in envir) {
+        if (data[key] == null || data[key] == undefined || data[key] == "") {
+          envir[key].number.innerHTML = "No data";
+          envir[key].assessment.innerHTML = "No assessment";
+        }
+        else {
+          envir[key].number.innerHTML = data[key];
+          if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
+            if (data[key] > envir[key].threshold) {
+              envir[key].assessment.innerHTML = "Bad";
+              envir[key].assessment.style.color = "red";
+            } else {
+              envir[key].assessment.innerHTML = "Good";
+              envir[key].assessment.style.color = "green";
+            }
+          } else if (typeof envir[key].threshold == "object") {
+            if (data[key] < envir[key].threshold[0] || data[key] > envir[key].threshold[1]) {
+              envir[key].assessment.innerHTML = "Bad";
+              envir[key].assessment.style.color = "red";
+            } else {
+              envir[key].assessment.innerHTML = "Good";
+              envir[key].assessment.style.color = "green";
+            }
+          }
+        }
+      }
 
       let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, data.dust, data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow, data.waterLevel]
-
       charts.forEach((chart, index) => {
         addData(chart, chartData[index])
         if (chart.data.datasets[0].data.length > 30) {
@@ -480,7 +455,7 @@
       console.log(control)
     })
 
-    straight.addEventListener("click", () => {
+    straight_btn.addEventListener("click", () => {
       control.turnRight = 0;
       control.turnLeft = 0;
       socket.emit("/web/control", control)
@@ -493,7 +468,7 @@
       socket.emit("/web/control", control)
     })
 
-    stop.addEventListener("click", () => {
+    stop_btn.addEventListener("click", () => {
       control.leftMotor = 0;
       control.middleMotor = 0;
       control.rightMotor = 0;
@@ -514,18 +489,10 @@
     })
 
     set_envir.addEventListener("click", () => {
-      control.phThreshold = ph_threshold.value;
-      control.windSpeedThreshold = windSpeedThreshold.value;
-      control.tdsThreshold = tdsThreshold.value;
-      control.rainThreshold = rainThreshold.value;
-      control.tempThreshold = tempThreshold.value;
-      control.humiUpThreshold = humiUpThreshold.value;
-      control.humiLowThreshold = humiLowThreshold.value;
-      control.co2Threshold = co2Threshold.value;
-      control.coThreshold = coThreshold.value;
-      control.buiUpThreshold = buiUpThreshold.value;
-      control.buiLowThreshold = buiLowThreshold.value;
-      
+      updateControl();
+
+      updateEnvirThreshold();
+
       if (control.phThreshold < 0 || control.phThreshold > 14) {
         alert("pH threshold must be between 0 and 14")
         return;
@@ -541,13 +508,43 @@
         return;
       }
 
-      if (control.buiLowThreshold < 0  || control.buiUpThreshold < control.buiLowThreshold) {
+      if (control.buiLowThreshold < 0 || control.buiUpThreshold < control.buiLowThreshold) {
         alert("buiThreshold must larger than 0 || buiUpThreshold must be greater than buiLowThreshold")
         return;
       }
 
       socket.emit("/web/control", control)
+
+
     })
+
+    function updateEnvirThreshold() {
+      for (let key in envir) {
+        if (typeof envir[key] != "object")
+          envir[key].threshold = control[key + "Threshold"];
+        else {
+          envir[key].threshold[0] = control[key + "LowThreshold"];
+          envir[key].threshold[1] = control[key + "UpThreshold"];
+        }
+      }
+    }
+
+    function updateControl() {
+      control.phLowThreshold = phLowThreshold.value;
+      control.phUpThreshold = phUpThreshold.value;
+      control.windSpeedThreshold = windSpeedThreshold.value;
+      control.tdsThreshold = tdsThreshold.value;
+      control.rainThreshold = rainThreshold.value;
+      control.wTempUpThreshold = wTempUpThreshold.value;
+      control.wTempLowThreshold = wTempLowThreshold.value;
+      control.humiLowThreshold = humiLowThreshold.value;
+      control.humiUpThreshold = humiUpThreshold.value;
+      control.co2Threshold = co2Threshold.value;
+      control.coThreshold = coThreshold.value;
+      control.buiUpThreshold = buiUpThreshold.value;
+      control.buiLowThreshold = buiLowThreshold.value;
+      control.tempThreshold = tempThreshold.value;
+    }
 
   </script>
   <!-- chart -->
