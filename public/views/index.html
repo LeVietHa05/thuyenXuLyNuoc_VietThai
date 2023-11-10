@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Thiết bị quan trắc và xử lý môi trường lưu động</title>
+  <title>Hệ thống quan trắc và xử lý môi trường lưu động</title>
   <meta name="description" content="website for controlling and keep track of the boat">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
@@ -187,9 +187,9 @@
         <label for="rainThreshold">Set rainThreshold (mm/8H): </label>
         <input type="text" value="50" id="rainThreshold">
         <label for="wTempUpThreshold">Set wTempUpThreshold (C): </label>
-        <input type="text" value="23" id="wTempUpThreshold">
+        <input type="text" value="28" id="wTempUpThreshold">
         <label for="wTempLowThreshold">Set wTempLowThreshold (C): </label>
-        <input type="text" value="28" id="wTempLowThreshold">
+        <input type="text" value="23" id="wTempLowThreshold">
       </div>
       <div class="col">
         <label for="humiLowThreshold">Set humiLowThreshold (%): </label>
@@ -335,7 +335,7 @@
         assessment: dust_assessment,
         threshold: [buiLowThreshold.value, buiUpThreshold.value]
       },
-      wTemp: {
+      tempDS18B20: {
         number: water_temp,
         assessment: water_temp_assessment,
         threshold: [wTempLowThreshold.value, wTempUpThreshold.value]
@@ -355,20 +355,20 @@
         assessment: windSpeed_assessment,
         threshold: windSpeedThreshold.value
       },
-      rain: {
+      flow: {
         number: flow,
         assessment: flow_assessment,
         threshold: rainThreshold.value
       },
-      wlevel: {
+      waterLevel: {
         number: wlevel,
         assessment: wlevel_assessment,
-        threshold: 3
+        threshold: 12
       },
-      nh4: {
+      NH4: {
         number: nh4,
         assessment: nh4_assessment,
-        threshold: 1
+        threshold: 100
       }
     }
     let control = {
@@ -382,9 +382,9 @@
       phUpThreshold: envir.ph.threshold[1].value,
       windSpeedThreshold: envir.windSpeed.threshold.value,
       tdsThreshold: envir.tds.threshold.value,
-      rainThreshold: envir.rain.threshold.value,
-      wTempLowThreshold: envir.wTemp.threshold[0].value,
-      wTempUpThreshold: envir.wTemp.threshold[1].value,
+      rainThreshold: envir.flow.threshold.value,
+      wTempLowThreshold: envir.tempDS18B20.threshold[0].value,
+      wTempUpThreshold: envir.tempDS18B20.threshold[1].value,
       humiLowThreshold: envir.humi.threshold[0].value,
       humiUpThreshold: envir.humi.threshold[1].value,
       co2Threshold: envir.co2.threshold.value,
@@ -392,7 +392,7 @@
       buiLowThreshold: envir.dust.threshold[0].value,
       buiUpThreshold: envir.dust.threshold[1].value,
       tempThreshold: envir.temp.threshold.value,
-      wlevelThreshold: envir.wlevel.threshold
+      wlevelThreshold: envir.waterLevel.threshold
     }
 
     updateControl();
