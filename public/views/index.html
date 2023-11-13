@@ -87,7 +87,7 @@
           <div class="col rounded text-center p-1 bg-lightPurple2">
             <div class="h2">Bụi mịn</div>
             <div id="dust" class="h1">0.4</div>
-            <div>(ppm)</div>
+            <div>(µg/m3)</div>
             <div id="dust_assessment">Good</div>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dustChart"> </canvas></div>
@@ -180,15 +180,15 @@
         <input type="text" value="6.5" id="phLowThreshold">
         <label for="windSpeedThreshold">Ngưỡng gió (m/s): </label>
         <input type="text" value="10.7" id="windSpeedThreshold">
-        <label for="tdsThreshold">Ngưỡng TDS: </label>
+        <label for="tdsThreshold">Ngưỡng TDS (ppm): </label>
         <input type="text" value="1000" id="tdsThreshold">
       </div>
       <div class="col">
-        <label for="rainThreshold">Ngưỡng lượng mưa (mm/12H): </label>
+        <label for="rainThreshold">Ngưỡng lượng mưa (mm/12h): </label>
         <input type="text" value="50" id="rainThreshold">
-        <label for="wTempUpThreshold">Ngưỡng trên nhiệt độ nước (C): </label>
+        <label for="wTempUpThreshold">Ngưỡng trên nhiệt độ nước (độ C): </label>
         <input type="text" value="28" id="wTempUpThreshold">
-        <label for="wTempLowThreshold">Ngưỡng dưới nhiệt độ nước (C): </label>
+        <label for="wTempLowThreshold">Ngưỡng dưới nhiệt độ nước (độ C): </label>
         <input type="text" value="23" id="wTempLowThreshold">
       </div>
       <div class="col">
@@ -202,11 +202,11 @@
         <input type="text" value="50" id="coThreshold">
       </div>
       <div class="col">
-        <label for="buiUpThreshold">Ngưỡng trên bụi (ug/l): </label>
+        <label for="buiUpThreshold">Ngưỡng trên bụi (µg/m3): </label>
         <input type="text" value="35" id="buiUpThreshold">
-        <label for="buiLowThreshold">Ngưỡng dưới bụi (ug/l): </label>
+        <label for="buiLowThreshold">Ngưỡng dưới bụi (µg/m3): </label>
         <input type="text" value="12" id="buiLowThreshold">
-        <label for="tempThreshold">Ngưỡng nhiệt độ (C): </label>
+        <label for="tempThreshold">Ngưỡng nhiệt độ (độ C): </label>
         <input type="text" value="35" id="tempThreshold">
       </div>
     </div>
@@ -382,7 +382,7 @@
       phUpThreshold: envir.ph.threshold[1].value,
       windSpeedThreshold: envir.windSpeed.threshold.value,
       tdsThreshold: envir.tds.threshold.value,
-      rainThreshold: envir.flow.threshold.value,
+      flowThreshold: envir.flow.threshold.value,
       wTempLowThreshold: envir.tempDS18B20.threshold[0].value,
       wTempUpThreshold: envir.tempDS18B20.threshold[1].value,
       humiLowThreshold: envir.humi.threshold[0].value,
@@ -392,7 +392,7 @@
       buiLowThreshold: envir.dust.threshold[0].value,
       buiUpThreshold: envir.dust.threshold[1].value,
       tempThreshold: envir.temp.threshold.value,
-      wlevelThreshold: envir.waterLevel.threshold
+      waterLevelThreshold: envir.waterLevel.threshold
     }
 
     updateControl();
@@ -412,7 +412,7 @@
         else {
           envir[key].number.innerHTML = data[key];
           if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
-            if (data[key] > envir[key].threshold) {
+            if (Number(data[key]) > Number(envir[key]).threshold) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
             } else {
@@ -420,7 +420,7 @@
               envir[key].assessment.style.color = "green";
             }
           } else if (typeof envir[key].threshold == "object") {
-            if (data[key] < envir[key].threshold[0] || data[key] > envir[key].threshold[1]) {
+            if (Number(data[key]) < Number(envir[key].threshold[0]) || Number(data[key]) > Number(envir[key].threshold[1])) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
             } else {
@@ -520,8 +520,9 @@
 
     function updateEnvirThreshold() {
       for (let key in envir) {
-        if (typeof envir[key] != "object")
+        if (typeof envir[key].threshold != "object") {
           envir[key].threshold = control[key + "Threshold"];
+        }
         else {
           envir[key].threshold[0] = control[key + "LowThreshold"];
           envir[key].threshold[1] = control[key + "UpThreshold"];
@@ -534,7 +535,7 @@
       control.phUpThreshold = phUpThreshold.value;
       control.windSpeedThreshold = windSpeedThreshold.value;
       control.tdsThreshold = tdsThreshold.value;
-      control.rainThreshold = rainThreshold.value;
+      control.flowThreshold = rainThreshold.value;
       control.wTempUpThreshold = wTempUpThreshold.value;
       control.wTempLowThreshold = wTempLowThreshold.value;
       control.humiLowThreshold = humiLowThreshold.value;
