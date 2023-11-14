@@ -520,6 +520,7 @@
 
     function updateEnvirThreshold() {
       for (let key in envir) {
+        if (key == "NH4") continue;
         if (typeof envir[key].threshold != "object") {
           envir[key].threshold = control[key + "Threshold"];
         }
