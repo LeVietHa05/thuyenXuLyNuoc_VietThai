@@ -383,14 +383,14 @@
       windSpeedThreshold: envir.windSpeed.threshold.value,
       tdsThreshold: envir.tds.threshold.value,
       flowThreshold: envir.flow.threshold.value,
-      wTempLowThreshold: envir.tempDS18B20.threshold[0].value,
-      wTempUpThreshold: envir.tempDS18B20.threshold[1].value,
+      tempDS18B20LowThreshold: envir.tempDS18B20.threshold[0].value,
+      tempDS18B20UpThreshold: envir.tempDS18B20.threshold[1].value,
       humiLowThreshold: envir.humi.threshold[0].value,
       humiUpThreshold: envir.humi.threshold[1].value,
       co2Threshold: envir.co2.threshold.value,
       coThreshold: envir.co.threshold.value,
-      buiLowThreshold: envir.dust.threshold[0].value,
-      buiUpThreshold: envir.dust.threshold[1].value,
+      dustLowThreshold: envir.dust.threshold[0].value,
+      dustUpThreshold: envir.dust.threshold[1].value,
       tempThreshold: envir.temp.threshold.value,
       waterLevelThreshold: envir.waterLevel.threshold
     }
@@ -536,14 +536,14 @@
       control.windSpeedThreshold = windSpeedThreshold.value;
       control.tdsThreshold = tdsThreshold.value;
       control.flowThreshold = rainThreshold.value;
-      control.wTempUpThreshold = wTempUpThreshold.value;
-      control.wTempLowThreshold = wTempLowThreshold.value;
+      control.tempDS18B20UpThreshold = wTempUpThreshold.value;
+      control.tempDS18B20LowThreshold = wTempLowThreshold.value;
       control.humiLowThreshold = humiLowThreshold.value;
       control.humiUpThreshold = humiUpThreshold.value;
       control.co2Threshold = co2Threshold.value;
       control.coThreshold = coThreshold.value;
-      control.buiUpThreshold = buiUpThreshold.value;
-      control.buiLowThreshold = buiLowThreshold.value;
+      control.dustUpThreshold = buiUpThreshold.value;
+      control.dustLowThreshold = buiLowThreshold.value;
       control.tempThreshold = tempThreshold.value;
     }
 
