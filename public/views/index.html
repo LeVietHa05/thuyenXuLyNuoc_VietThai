@@ -412,7 +412,7 @@
         else {
           envir[key].number.innerHTML = data[key];
           if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
-            if (Number(data[key]) > Number(envir[key]).threshold) {
+            if (Number(data[key]) > Number(envir[key].threshold)) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
             } else {
