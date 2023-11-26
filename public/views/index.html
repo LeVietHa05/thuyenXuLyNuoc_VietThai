@@ -74,12 +74,12 @@
       <div class="col rounded bg-lightCyan">
         <div class="row p-3">
           <div class="col rounded text-center p-1 bg-lightCyan2">
-            <div class="h2">NH4</div>
-            <div id="nh4" class="h1">1</div>
+            <div class="h2">NH3</div>
+            <div id="nh3" class="h1">1</div>
             <div>(mg/l)</div>
-            <div id="nh4_assessment">Good</div>
+            <div id="nh3_assessment">Good</div>
           </div>
-          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="nh4Chart"> </canvas></div>
+          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="nh3Chart"> </canvas></div>
         </div>
       </div>
       <div class="col rounded bg-lightPurple">
@@ -367,9 +367,9 @@
         assessment: wlevel_assessment,
         threshold: 12
       },
-      NH4: {
-        number: nh4,
-        assessment: nh4_assessment,
+      NH3: {
+        number: nh3,
+        assessment: nh3_assessment,
         threshold: 100
       }
     }
@@ -522,7 +522,7 @@
 
     function updateEnvirThreshold() {
       for (let key in envir) {
-        if (key == "NH4") continue;
+        if (key == "NH3") continue;
         if (typeof envir[key].threshold != "object") {
           envir[key].threshold = control[key + "Threshold"];
         }
@@ -579,10 +579,10 @@
       };
     }
 
-    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "nh4", "Bụi mịn", "Nhiệt độ nước", "pH", "TDS", "Tốc độ gió", "Lưu lượng mưa", "Mực nước"]
+    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "nh3", "Bụi mịn", "Nhiệt độ nước", "pH", "TDS", "Tốc độ gió", "Lưu lượng mưa", "Mực nước"]
     let data = [25, 50, 1, 0.4, 1, 0.4, 25, 7.0, 50, 2, 1, 0.4]
     let colors = ["red", "green", "blue", "yellow", "cyan", "purple", "red", "green", "blue", "yellow", "cyan", "purple"]
-    let chartids = ["tempChart", "humiChart", "co2Chart", "coChart", "nh4Chart", "dustChart", "water_tempChart", "phChart", "tdsChart", "windSpeedChart", "flowChart", "wlevelChart"]
+    let chartids = ["tempChart", "humiChart", "co2Chart", "coChart", "nh3Chart", "dustChart", "water_tempChart", "phChart", "tdsChart", "windSpeedChart", "flowChart", "wlevelChart"]
     const charts = [];
     const chartConfigs = [];
     for (let i = 0; i < labels.length; i++) {
