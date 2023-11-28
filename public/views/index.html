@@ -416,6 +416,9 @@
             let x = Math.floor((Math.random() * 5 + 5) * 100) / 100;
             data[key] = x;
           }
+          if (key == "windSpeed") {
+            data[key] = data[key] / 10; //the windspeed from sensor is tenfold the actual value
+          }
           envir[key].number.innerHTML = data[key];
           if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
             if (Number(data[key]) > Number(envir[key]).threshold) {
