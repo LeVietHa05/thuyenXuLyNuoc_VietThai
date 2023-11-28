@@ -172,7 +172,7 @@
       </div>
     </div>
     <div id="js_admin_only">
-      <div class=" row d-flex  flex-wrap mt-3" >
+      <div class=" row d-flex  flex-wrap mt-3">
         <div class="col">
           <label for="phUpThreshold">Ngưỡng trên pH : </label>
           <input type="text" value="8.5" id="phUpThreshold">
@@ -367,7 +367,7 @@
         assessment: wlevel_assessment,
         threshold: 12
       },
-      NH3: {
+      NH4: {
         number: nh3,
         assessment: nh3_assessment,
         threshold: 100
@@ -422,6 +422,16 @@
               envir[key].assessment.style.color = "green";
             }
           } else if (typeof envir[key].threshold == "object") {
+            if (key == "dust") { //remove dust lower threshold
+              if (Number(data[key]) > Number(envir[key].threshold[1])) {
+                envir[key].assessment.innerHTML = "Bad";
+                envir[key].assessment.style.color = "red";
+              } else {
+                envir[key].assessment.innerHTML = "Good";
+                envir[key].assessment.style.color = "green";
+              }
+              continue;
+            }
             if (Number(data[key]) < Number(envir[key].threshold[0]) || Number(data[key]) > Number(envir[key].threshold[1])) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
