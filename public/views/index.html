@@ -205,8 +205,8 @@
         <div class="col">
           <label for="dust25Threshold">Ngưỡng bụi PM2.5 (µg/m3): </label>
           <input type="text" value="50" id="dust25Threshold">
-          <label for="buiLowThreshold">Ngưỡng bụi PM10 (µg/m3): </label>
-          <input type="text" value="100" id="buiLowThreshold">
+          <label for="dust10Threshold">Ngưỡng bụi PM10 (µg/m3): </label>
+          <input type="text" value="100" id="dust10Threshold">
           <label for="tempThreshold">Ngưỡng nhiệt độ (độ C): </label>
           <input type="text" value="35" id="tempThreshold">
         </div>
@@ -255,6 +255,15 @@
       <button id="mode_sport_btn">Thể thao</button>
     </div>
   </div>
+
+  <!-- dialog for notification -->
+  <dialog id="dialog" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0;">
+    <h1>title place holder</h1>
+    <p>content place holder</p>
+    <form method="dialog">
+      <button autofocus style="transform: translateX(-50%); left: 50%; position: relative;">close</button>
+    </form>
+  </dialog>
 
   <!-- normal script -->
   <script>
@@ -316,52 +325,62 @@
       temp: {
         number: temp,
         assessment: temp_assessment,
-        threshold: tempThreshold.value
+        threshold: tempThreshold.value,
+        alertContent: `Nhiệt độ hiện tại: ${temp.innerText} °C. Nhiệt độ vượt ngưỡng cho phép: ${tempThreshold.value} °C`
       },
       humi: {
         number: humi,
         assessment: humi_assessment,
-        threshold: [humiLowThreshold.value, humiUpThreshold.value]
+        threshold: [humiLowThreshold.value, humiUpThreshold.value],
+        alertContent: `Độ ẩm hiện tại: ${humi.innerText} %. Độ ẩm vượt ngưỡng cho phép: ${humiLowThreshold.value} - ${humiUpThreshold.value} %`
       },
       co2: {
         number: co2,
         assessment: co2_assessment,
-        threshold: co2Threshold.value
+        threshold: co2Threshold.value,
+        alertContent: `CO2 hiện tại: ${co2.innerText} ppm. CO2 vượt ngưỡng cho phép: ${co2Threshold.value} ppm. Hãy thông thoáng không khí`
       },
       co: {
         number: co,
         assessment: co_assessment,
-        threshold: coThreshold.value
+        threshold: coThreshold.value,
+        alertContent: `CO hiện tại: ${co.innerText} ppm. CO vượt ngưỡng cho phép: ${coThreshold.value} ppm. Hãy thông thoáng không khí`
       },
       dust: {
         number: dust,
         assessment: dust_assessment,
-        threshold: [buiLowThreshold.value, dust25Threshold.value]
+        threshold: [dust10Threshold.value, dust25Threshold.value],
+        alertContent: `Bụi vượt ngưỡng cho phép: PM2.5: ${dust25Threshold.value} µg/m3 / PM10: ${dust10Threshold.value} µg/m3. Hãy dùng khẩu trang`
       },
       tempDS18B20: {
         number: water_temp,
         assessment: water_temp_assessment,
-        threshold: [wTempLowThreshold.value, wTempUpThreshold.value]
+        threshold: [wTempLowThreshold.value, wTempUpThreshold.value],
+        alertContent: `Nhiệt độ nước hiện tại: ${water_temp.innerText} °C. Nhiệt độ nước vượt ngưỡng cho phép: ${wTempLowThreshold.value} - ${wTempUpThreshold.value} °C`
       },
       ph: {
         number: ph,
         assessment: ph_assessment,
-        threshold: [phLowThreshold.value, phUpThreshold.value]
+        threshold: [phLowThreshold.value, phUpThreshold.value],
+        alertContent: `pH hiện tại: ${ph.innerText}. pH vượt ngưỡng cho phép: ${phLowThreshold.value} - ${phUpThreshold.value}. Hãy điều chỉnh lại nồng độ pH`
       },
       tds: {
         number: tds,
         assessment: tds_assessment,
-        threshold: tdsThreshold.value
+        threshold: tdsThreshold.value,
+        alertContent: `TDS hiện tại: ${tds.innerText} ppm. TDS vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Tuyệt đối không uống nước này`
       },
       windSpeed: {
         number: flow,
         assessment: windSpeed_assessment,
-        threshold: windSpeedThreshold.value
+        threshold: windSpeedThreshold.value,
+        alertContent: `Tốc độ gió hiện tại: ${flow.innerText} m/s. Tốc độ gió vượt ngưỡng cho phép: ${windSpeedThreshold.value} m/s. Hãy cẩn thận khi ra ngoài`
       },
       flow: {
         number: windSpeed,
         assessment: flow_assessment,
-        threshold: rainThreshold.value
+        threshold: rainThreshold.value,
+        alertContent: `Lượng mưa hiện tại: ${windSpeed.innerText} ml/h. Lượng mưa vượt ngưỡng cho phép: ${rainThreshold.value} ml/h. Hãy cẩn thận khi ra ngoài`
       },
       waterLevel: {
         number: wlevel,
@@ -406,7 +425,7 @@
     });
 
     socket.on("/web/envir", (data) => {
-
+      let alarmTitle = "";
       for (let key in envir) {
         if (data[key] == null || data[key] == undefined || data[key] == "") {
           envir[key].number.innerHTML = "No data";
@@ -428,6 +447,7 @@
             if (Number(data[key]) > Number(envir[key].threshold)) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
+              alarmTitle += key + " ";
             } else {
               envir[key].assessment.innerHTML = "Good";
               envir[key].assessment.style.color = "green";
@@ -437,21 +457,25 @@
               if (Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1]) || Number(data[key]["PM10"]) > Number(envir[key].threshold[0])) {
                 envir[key].assessment.innerHTML = "Bad";
                 envir[key].assessment.style.color = "red";
+                alarmTitle += key + " ";
               } else {
                 envir[key].assessment.innerHTML = "Good";
                 envir[key].assessment.style.color = "green";
               }
-              continue;
-            }
-            if (Number(data[key]) < Number(envir[key].threshold[0]) || Number(data[key]) > Number(envir[key].threshold[1])) {
+            } else if (Number(data[key]) < Number(envir[key].threshold[0]) || Number(data[key]) > Number(envir[key].threshold[1])) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
+              alarmTitle += key + " ";
             } else {
               envir[key].assessment.innerHTML = "Good";
               envir[key].assessment.style.color = "green";
             }
           }
         }
+      }
+
+      if (alarmTitle != "") {
+        openDialogWithMessage("Cảnh báo", alarmTitle);
       }
 
       let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, [data.dust["PM2.5"], data.dust["PM10"]], data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow, data.waterLevel]
@@ -463,6 +487,19 @@
       })
       console.log(data)
     })
+
+    function openDialogWithMessage(title, key) {
+      let content ="";
+      key = key.split(" ");
+      console.log(key)
+      key.forEach((k) => {
+        if (k == "") return;
+        content += envir[k].alertContent + "<br>";
+      })
+      dialog.querySelector("h1").innerHTML = title;
+      dialog.querySelector("p").innerHTML = content;
+      dialog.showModal();
+    }
 
     turnLeft.addEventListener("mousedown", () => {
       control.turnLeft = 1;
