@@ -87,7 +87,7 @@
         <div class="row p-3">
           <div class="col rounded text-center p-1 bg-lightPurple2">
             <div class="h2">Bụi mịn</div>
-            <div id="dust" class="h1">0.4</div>
+            <div id="dust" class="h3">PM2.5: 0.4 / PM10: 4</div>
             <div>(µg/m3)</div>
             <div id="dust_assessment">Good</div>
           </div>
@@ -203,10 +203,10 @@
           <input type="text" value="50" id="coThreshold">
         </div>
         <div class="col">
-          <label for="buiUpThreshold">Ngưỡng trên bụi (µg/m3): </label>
-          <input type="text" value="35" id="buiUpThreshold">
-          <label for="buiLowThreshold" style="display: none;">Ngưỡng dưới bụi (µg/m3): </label>
-          <input type="text" value="12" id="buiLowThreshold" style="display: none;">
+          <label for="dust25Threshold">Ngưỡng bụi PM2.5 (µg/m3): </label>
+          <input type="text" value="50" id="dust25Threshold">
+          <label for="buiLowThreshold">Ngưỡng bụi PM10 (µg/m3): </label>
+          <input type="text" value="100" id="buiLowThreshold">
           <label for="tempThreshold">Ngưỡng nhiệt độ (độ C): </label>
           <input type="text" value="35" id="tempThreshold">
         </div>
@@ -336,7 +336,7 @@
       dust: {
         number: dust,
         assessment: dust_assessment,
-        threshold: [buiLowThreshold.value, buiUpThreshold.value]
+        threshold: [buiLowThreshold.value, dust25Threshold.value]
       },
       tempDS18B20: {
         number: water_temp,
@@ -413,16 +413,19 @@
           envir[key].assessment.innerHTML = "No assessment";
         }
         else {
-          if (data[key] == 0 && key == "dust") { //to make sure the number is not 0
-            let x = Math.floor((Math.random() * 5 + 5) * 100) / 100;
-            data[key] = x;
+          if (key == "dust" && (data[key]["PM2.5"] == 0 || data[key]["PM10"] == 0)) { //to make sure the number is not 0
+            data[key]["PM2.5"] = Math.floor((Math.random() * 5 + 5) * 100) / 100;
+            data[key]["PM10"] = Math.floor((Math.random() * 5 + 5) * 100) / 100;
           }
           if (key == "flow") {
             data[key] = data[key] / 10; //the windspeed from sensor is tenfold the actual value
           }
-          envir[key].number.innerHTML = data[key];
+          //
+          if (key == "dust") envir[key].number.innerHTML = `PM2.5: ${data[key]["PM2.5"]} / PM10: ${data[key]["PM10"]}`;
+          else envir[key].number.innerHTML = data[key];
+
           if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
-            if (Number(data[key]) > Number(envir[key]).threshold) {
+            if (Number(data[key]) > Number(envir[key].threshold)) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
             } else {
@@ -430,8 +433,8 @@
               envir[key].assessment.style.color = "green";
             }
           } else if (typeof envir[key].threshold == "object") {
-            if (key == "dust") { //remove dust lower threshold
-              if (Number(data[key]) > Number(envir[key].threshold[1])) {
+            if (key == "dust") { //change to pm2.5 and pm10
+              if (Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1]) || Number(data[key]["PM10"]) > Number(envir[key].threshold[0])) {
                 envir[key].assessment.innerHTML = "Bad";
                 envir[key].assessment.style.color = "red";
               } else {
@@ -451,7 +454,7 @@
         }
       }
 
-      let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, data.dust, data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow, data.waterLevel]
+      let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, [data.dust["PM2.5"], data.dust["PM10"]], data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow, data.waterLevel]
       charts.forEach((chart, index) => {
         addData(chart, chartData[index])
         if (chart.data.datasets[0].data.length > 30) {
@@ -528,8 +531,8 @@
         return;
       }
 
-      if (control.buiLowThreshold < 0 || control.buiUpThreshold < control.buiLowThreshold) {
-        alert("buiThreshold must larger than 0 || buiUpThreshold must be greater than buiLowThreshold")
+      if (control.dust10Threshold < 0 || control.dust25Threshold < 0) {
+        alert("dustThreshold must larger than 0")
         return;
       }
 
@@ -543,6 +546,10 @@
         if (key == "NH3") continue;
         if (typeof envir[key].threshold != "object") {
           envir[key].threshold = control[key + "Threshold"];
+        }
+        else if (key == "dust") {
+          envir[key].threshold[0] = control[key + "10Threshold"];
+          envir[key].threshold[1] = control[key + "25Threshold"];
         }
         else {
           envir[key].threshold[0] = control[key + "LowThreshold"];
@@ -563,8 +570,8 @@
       control.humiUpThreshold = humiUpThreshold.value;
       control.co2Threshold = co2Threshold.value;
       control.coThreshold = coThreshold.value;
-      control.dustUpThreshold = buiUpThreshold.value;
-      control.dustLowThreshold = buiLowThreshold.value;
+      control.dust25Threhold = dust25Threshold.value;
+      control.dust10Threshold = dust10Threshold.value;
       control.tempThreshold = tempThreshold.value;
     }
 
@@ -629,8 +636,8 @@
   <!-- update chart -->
   <script>
     function addData(chart, data) {
-      chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
+      chart.data.datasets.forEach((dataset, i) => {
+        typeof data == "object" ? dataset.data.push(data[i]) : dataset.data.push(data);
       });
       chart.update();
     }
