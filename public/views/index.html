@@ -326,61 +326,81 @@
         number: temp,
         assessment: temp_assessment,
         threshold: tempThreshold.value,
-        alertContent: `Nhiệt độ hiện tại: ${temp.innerText} °C. Nhiệt độ vượt ngưỡng cho phép: ${tempThreshold.value} °C`
+        unit: "°C",
+        additionalAlert: "",
+        alertContent: `Chỉ số hiện tại: ${temp.innerText} °C. Vượt ngưỡng cho phép: ${tempThreshold.value} °C`
       },
       humi: {
         number: humi,
         assessment: humi_assessment,
         threshold: [humiLowThreshold.value, humiUpThreshold.value],
-        alertContent: `Độ ẩm hiện tại: ${humi.innerText} %. Độ ẩm vượt ngưỡng cho phép: ${humiLowThreshold.value} - ${humiUpThreshold.value} %`
+        unit: "%",
+        additionalAlert: "",
+        alertContent: `Chỉ số hiện tại: ${humi.innerText} %. Vượt ngưỡng cho phép: ${humiLowThreshold.value} - ${humiUpThreshold.value} %`
       },
       co2: {
         number: co2,
         assessment: co2_assessment,
         threshold: co2Threshold.value,
-        alertContent: `CO2 hiện tại: ${co2.innerText} ppm. CO2 vượt ngưỡng cho phép: ${co2Threshold.value} ppm. Hãy thông thoáng không khí`
+        unit: "ppm",
+        additionalAlert: "Hãy thông thoáng không khí",
+        alertContent: `Chỉ số hiện tại: ${co2.innerText} ppm. Vượt ngưỡng cho phép: ${co2Threshold.value} ppm. Hãy thông thoáng không khí`
       },
       co: {
         number: co,
         assessment: co_assessment,
         threshold: coThreshold.value,
-        alertContent: `CO hiện tại: ${co.innerText} ppm. CO vượt ngưỡng cho phép: ${coThreshold.value} ppm. Hãy thông thoáng không khí`
+        unit: "ppm",
+        additionalAlert: "Hãy thông thoáng không khí",
+        alertContent: `Chỉ số hiện tại: ${co.innerText} ppm. Vượt ngưỡng cho phép: ${coThreshold.value} ppm. Hãy thông thoáng không khí`
       },
       dust: {
         number: dust,
         assessment: dust_assessment,
         threshold: [dust10Threshold.value, dust25Threshold.value],
+        unit: "µg/m3",
+        additionalAlert: "Hãy dùng khẩu trang",
         alertContent: `Bụi vượt ngưỡng cho phép: PM2.5: ${dust25Threshold.value} µg/m3 / PM10: ${dust10Threshold.value} µg/m3. Hãy dùng khẩu trang`
       },
       tempDS18B20: {
         number: water_temp,
         assessment: water_temp_assessment,
         threshold: [wTempLowThreshold.value, wTempUpThreshold.value],
-        alertContent: `Nhiệt độ nước hiện tại: ${water_temp.innerText} °C. Nhiệt độ nước vượt ngưỡng cho phép: ${wTempLowThreshold.value} - ${wTempUpThreshold.value} °C`
+        unit: "°C",
+        additionalAlert: "",
+        alertContent: `Chỉ số hiện tại: ${water_temp.innerText} °C. Vượt ngưỡng cho phép: ${wTempLowThreshold.value} - ${wTempUpThreshold.value} °C`
       },
       ph: {
         number: ph,
         assessment: ph_assessment,
         threshold: [phLowThreshold.value, phUpThreshold.value],
-        alertContent: `pH hiện tại: ${ph.innerText}. pH vượt ngưỡng cho phép: ${phLowThreshold.value} - ${phUpThreshold.value}. Hãy điều chỉnh lại nồng độ pH`
+        unit: "",
+        additionalAlert: "Hãy điều chỉnh lại nồng độ pH",
+        alertContent: `Chỉ số hiện tại: ${ph.innerText}. Vượt ngưỡng cho phép: ${phLowThreshold.value} - ${phUpThreshold.value}. Hãy điều chỉnh lại nồng độ pH`
       },
       tds: {
         number: tds,
         assessment: tds_assessment,
         threshold: tdsThreshold.value,
-        alertContent: `TDS hiện tại: ${tds.innerText} ppm. TDS vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Tuyệt đối không uống nước này`
+        unit: "ppm",
+        additionalAlert: "Tuyệt đối không uống nước này",
+        alertContent: `Chỉ số hiện tại: ${tds.innerText} ppm. Vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Tuyệt đối không uống nước này`
       },
       windSpeed: {
         number: flow,
         assessment: windSpeed_assessment,
         threshold: windSpeedThreshold.value,
-        alertContent: `Tốc độ gió hiện tại: ${flow.innerText} m/s. Tốc độ gió vượt ngưỡng cho phép: ${windSpeedThreshold.value} m/s. Hãy cẩn thận khi ra ngoài`
+        unit: "m/s",
+        additionalAlert: "Hãy cẩn thận khi ra ngoài",
+        alertContent: `Chỉ số hiện tại: ${flow.innerText} m/s. Vượt ngưỡng cho phép: ${windSpeedThreshold.value} m/s. Hãy cẩn thận khi ra ngoài`
       },
       flow: {
         number: windSpeed,
         assessment: flow_assessment,
         threshold: rainThreshold.value,
-        alertContent: `Lượng mưa hiện tại: ${windSpeed.innerText} ml/h. Lượng mưa vượt ngưỡng cho phép: ${rainThreshold.value} ml/h. Hãy cẩn thận khi ra ngoài`
+        unit: "ml/h",
+        additionalAlert: "Hãy cẩn thận khi ra ngoài",
+        alertContent: `Chỉ số hiện tại: ${windSpeed.innerText} ml/h. Vượt ngưỡng cho phép: ${rainThreshold.value} ml/h. Hãy cẩn thận khi ra ngoài`
       },
       waterLevel: {
         number: wlevel,
@@ -391,6 +411,9 @@
         number: nh3,
         assessment: nh3_assessment,
         threshold: 100
+      },
+      refreshAlertContent: function (key) {
+        this[key].alertContent = `Chỉ số hiện tại: ${this[key].number.innerText} ${this[key].unit}. Vượt ngưỡng cho phép: ${this[key].threshold} ${this[key].unit}. ${this[key].additionalAlert}`
       }
     }
     let control = {
@@ -427,6 +450,7 @@
     socket.on("/web/envir", (data) => {
       let alarmTitle = "";
       for (let key in envir) {
+        if (key == "refreshAlertContent") continue;
         if (data[key] == null || data[key] == undefined || data[key] == "") {
           envir[key].number.innerHTML = "No data";
           envir[key].assessment.innerHTML = "No assessment";
@@ -441,7 +465,10 @@
           }
           //
           if (key == "dust") envir[key].number.innerHTML = `PM2.5: ${data[key]["PM2.5"]} / PM10: ${data[key]["PM10"]}`;
-          else envir[key].number.innerHTML = data[key];
+          else {
+            envir[key].number.innerHTML = data[key];
+            envir.refreshAlertContent(key); //refresh alert content to match the new data
+          }
 
           if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
             if (Number(data[key]) > Number(envir[key].threshold)) {
@@ -489,7 +516,7 @@
     })
 
     function openDialogWithMessage(title, key) {
-      let content ="";
+      let content = "";
       key = key.split(" ");
       console.log(key)
       key.forEach((k) => {
@@ -655,7 +682,7 @@
       };
     }
 
-    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "nh3", ["Bụi PM2.5", "Bụi PM10"], "Nhiệt độ nước", "pH", "TDS", "Lưu lượng mưa", "Tốc độ gió", "Mực nước"]
+    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "NH3", ["Bụi PM2.5", "Bụi PM10"], "Nhiệt độ nước", "pH", "TDS", "Lưu lượng mưa", "Tốc độ gió", "Mực nước"]
     let data = [25, 50, 1, 0.4, 1, [[0.4], [4]], 25, 7.0, 50, 2, 1, 0.4]
     let colors = ["red", "green", "blue", "yellow", "cyan", ["purple", "#F06DD8"], "red", "green", "blue", "yellow", "cyan", "purple"]
     let chartids = ["tempChart", "humiChart", "co2Chart", "coChart", "nh3Chart", "dustChart", "water_tempChart", "phChart", "tdsChart", "flowChart", "windSpeedChart", "wlevelChart"]
