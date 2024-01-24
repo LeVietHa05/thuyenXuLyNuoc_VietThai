@@ -86,12 +86,27 @@
       <div class="col rounded bg-lightPurple">
         <div class="row p-3">
           <div class="col rounded text-center p-1 bg-lightPurple2">
-            <div class="h2">Bụi mịn</div>
-            <div id="dust" class="h3">PM2.5: 0.4 / PM10: 4</div>
+            <div class="h2">Bụi mịn PM2.5</div>
+            <div id="dust25" class="h3">PM2.5: 0.4 </div>
             <div>(µg/m3)</div>
-            <div id="dust_assessment">Good</div>
+            <div id="dust25_assessment">Good</div>
           </div>
-          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dustChart"> </canvas></div>
+          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dust25Chart"> </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-5  py-2 gap-1 justify-content-center">
+      <div class="col-6 rounded bg-lightPurple ">
+        <div class="row p-3">
+          <div class="col-sm rounded text-center p-1 bg-lightPurple2">
+            <div class="h2">Bụi PM10</div>
+            <div id="dust10" class="h3">PM10: 4</div>
+            <div>(µg/m3)</div>
+            <div id="dust10_assessment">Good</div>
+          </div>
+          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dust10Chart"> </canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -122,8 +137,8 @@
         </div>
       </div>
     </div>
-    <div class="row g-5  py-2 gap-1">
-      <div class="col rounded bg-lightBlue">
+    <div class="row g-5  py-2 gap-1 justify-content-center">
+      <div class="col-6 rounded bg-lightBlue ">
         <div class="row p-3">
           <div class="col-sm rounded text-center p-1 bg-lightBlue2">
             <div class="h2">TDS</div>
@@ -134,6 +149,9 @@
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="tdsChart"> </canvas></div>
         </div>
       </div>
+    </div>
+    <div class="h1 mt-4 ">Khí hậu</div>
+    <div class="row g-5 py-2 gap-1">
       <div class="col rounded bg-lightYellow">
         <div class="row p-3">
           <div class="col-sm rounded text-center p-1 bg-lightYellow2">
@@ -146,8 +164,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row g-5  py-2 gap-1">
       <div class="col rounded bg-lightCyan">
         <div class="row p-3">
           <div class="col-sm rounded text-center p-1 bg-lightCyan2">
@@ -156,10 +172,12 @@
             <div>(ml/h)</div>
             <div id="flow_assessment">Good</div>
           </div>
-          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="flowChart"> </canvas></div>
+          <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="flowChart"> </canvas>
+          </div>
         </div>
       </div>
-      <div class="col rounded bg-lightPurple">
+    </div>
+    <!-- <div class="col rounded bg-lightPurple">
         <div class="row p-3">
           <div class="col-sm rounded text-center p-1 bg-lightPurple2">
             <div class="h2">Mực nước</div>
@@ -170,8 +188,7 @@
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="wlevelChart"> </canvas>
           </div>
         </div>
-      </div>
-    </div>
+      </div> -->
     <div id="js_admin_only">
       <div class=" row d-flex  flex-wrap mt-3">
         <div class="col">
@@ -327,6 +344,7 @@
         assessment: temp_assessment,
         threshold: tempThreshold.value,
         unit: "°C",
+        name: "nhiệt độ",
         additionalAlert: "",
         alertContent: `Chỉ số hiện tại: ${temp.innerText} °C. Vượt ngưỡng cho phép: ${tempThreshold.value} °C`
       },
@@ -335,6 +353,7 @@
         assessment: humi_assessment,
         threshold: [humiLowThreshold.value, humiUpThreshold.value],
         unit: "%",
+        name: "độ ẩm",
         additionalAlert: "",
         alertContent: `Chỉ số hiện tại: ${humi.innerText} %. Vượt ngưỡng cho phép: ${humiLowThreshold.value} - ${humiUpThreshold.value} %`
       },
@@ -343,6 +362,7 @@
         assessment: co2_assessment,
         threshold: co2Threshold.value,
         unit: "ppm",
+        name: "CO2",
         additionalAlert: "Hãy thông thoáng không khí",
         alertContent: `Chỉ số hiện tại: ${co2.innerText} ppm. Vượt ngưỡng cho phép: ${co2Threshold.value} ppm. Hãy thông thoáng không khí`
       },
@@ -351,14 +371,16 @@
         assessment: co_assessment,
         threshold: coThreshold.value,
         unit: "ppm",
+        name: "CO",
         additionalAlert: "Hãy thông thoáng không khí",
         alertContent: `Chỉ số hiện tại: ${co.innerText} ppm. Vượt ngưỡng cho phép: ${coThreshold.value} ppm. Hãy thông thoáng không khí`
       },
       dust: {
-        number: dust,
-        assessment: dust_assessment,
+        number: [dust10, dust25],
+        assessment: [dust10_assessment, dust25_assessment],
         threshold: [dust10Threshold.value, dust25Threshold.value],
         unit: "µg/m3",
+        name: "bụi mịn",
         additionalAlert: "Hãy dùng khẩu trang",
         alertContent: `Bụi vượt ngưỡng cho phép: PM2.5: ${dust25Threshold.value} µg/m3 / PM10: ${dust10Threshold.value} µg/m3. Hãy dùng khẩu trang`
       },
@@ -367,6 +389,7 @@
         assessment: water_temp_assessment,
         threshold: [wTempLowThreshold.value, wTempUpThreshold.value],
         unit: "°C",
+        name: "nhiệt độ nước",
         additionalAlert: "",
         alertContent: `Chỉ số hiện tại: ${water_temp.innerText} °C. Vượt ngưỡng cho phép: ${wTempLowThreshold.value} - ${wTempUpThreshold.value} °C`
       },
@@ -375,6 +398,7 @@
         assessment: ph_assessment,
         threshold: [phLowThreshold.value, phUpThreshold.value],
         unit: "",
+        name: "pH",
         additionalAlert: "Hãy điều chỉnh lại nồng độ pH",
         alertContent: `Chỉ số hiện tại: ${ph.innerText}. Vượt ngưỡng cho phép: ${phLowThreshold.value} - ${phUpThreshold.value}. Hãy điều chỉnh lại nồng độ pH`
       },
@@ -383,6 +407,7 @@
         assessment: tds_assessment,
         threshold: tdsThreshold.value,
         unit: "ppm",
+        name: "TDS",
         additionalAlert: "Tuyệt đối không uống nước này",
         alertContent: `Chỉ số hiện tại: ${tds.innerText} ppm. Vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Tuyệt đối không uống nước này`
       },
@@ -391,6 +416,7 @@
         assessment: windSpeed_assessment,
         threshold: windSpeedThreshold.value,
         unit: "m/s",
+        name: "tốc độ gió",
         additionalAlert: "Hãy cẩn thận khi ra ngoài",
         alertContent: `Chỉ số hiện tại: ${flow.innerText} m/s. Vượt ngưỡng cho phép: ${windSpeedThreshold.value} m/s. Hãy cẩn thận khi ra ngoài`
       },
@@ -399,21 +425,22 @@
         assessment: flow_assessment,
         threshold: rainThreshold.value,
         unit: "ml/h",
+        name: "lượng mưa",
         additionalAlert: "Hãy cẩn thận khi ra ngoài",
         alertContent: `Chỉ số hiện tại: ${windSpeed.innerText} ml/h. Vượt ngưỡng cho phép: ${rainThreshold.value} ml/h. Hãy cẩn thận khi ra ngoài`
       },
-      waterLevel: {
-        number: wlevel,
-        assessment: wlevel_assessment,
-        threshold: 12
-      },
+      // waterLevel: {
+      //   number: wlevel,
+      //   assessment: wlevel_assessment,
+      //   threshold: 12
+      // },
       NH4: {
         number: nh3,
         assessment: nh3_assessment,
         threshold: 100
       },
       refreshAlertContent: function (key) {
-        this[key].alertContent = `Chỉ số hiện tại: ${this[key].number.innerText} ${this[key].unit}. Vượt ngưỡng cho phép: ${this[key].threshold} ${this[key].unit}. ${this[key].additionalAlert}`
+        this[key].alertContent = `Chỉ số ${this[key].name} hiện tại: ${this[key].number.innerText} ${this[key].unit}. Vượt ngưỡng cho phép: ${this[key].threshold} ${this[key].unit}. ${this[key].additionalAlert}`
       }
     }
     let control = {
@@ -437,7 +464,7 @@
       dustLowThreshold: envir.dust.threshold[0].value,
       dustUpThreshold: envir.dust.threshold[1].value,
       tempThreshold: envir.temp.threshold.value,
-      waterLevelThreshold: envir.waterLevel.threshold
+      // waterLevelThreshold: envir.waterLevel.threshold
     }
 
     updateControl();
@@ -450,21 +477,28 @@
     socket.on("/web/envir", (data) => {
       let alarmTitle = "";
       for (let key in envir) {
+        //skip refreshAlertContent function
         if (key == "refreshAlertContent") continue;
+        //if no data then display no data
         if (data[key] == null || data[key] == undefined || data[key] == "") {
           envir[key].number.innerHTML = "No data";
           envir[key].assessment.innerHTML = "No assessment";
         }
         else {
-          if (key == "dust" && (data[key]["PM2.5"] == 0 || data[key]["PM10"] == 0)) { //to make sure the number is not 0
+          //to make sure the number is not 0
+          if (key == "dust" && (data[key]["PM2.5"] == 0 || data[key]["PM10"] == 0)) {
             data[key]["PM2.5"] = Math.floor((Math.random() * 5 + 5) * 100) / 100;
             data[key]["PM10"] = Math.floor((Math.random() * 5 + 5) * 100) / 100;
           }
+          //recalculate flow
           if (key == "flow") {
-            data[key] = data[key] / 10; //the windspeed from sensor is tenfold the actual value
+            data[key] = data[key] / 10;
           }
-          //
-          if (key == "dust") envir[key].number.innerHTML = `PM2.5: ${data[key]["PM2.5"]} / PM10: ${data[key]["PM10"]}`;
+          //2 values for dust
+          if (key == "dust") {
+            envir[key].number[1].innerHTML = `PM2.5: ${data[key]["PM2.5"]}`;
+            envir[key].number[0].innerHTML = `PM10: ${data[key]["PM10"]}`;
+          }
           else {
             envir[key].number.innerHTML = data[key];
             envir.refreshAlertContent(key); //refresh alert content to match the new data
@@ -481,14 +515,30 @@
             }
           } else if (typeof envir[key].threshold == "object") {
             if (key == "dust") { //change to pm2.5 and pm10
+              //add alarm title
+              console.log("dust here")
+              console.log(data[key]["PM2.5"])
+              console.log(envir[key].threshold[1])
+              console.log(Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1]))
               if (Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1]) || Number(data[key]["PM10"]) > Number(envir[key].threshold[0])) {
-                envir[key].assessment.innerHTML = "Bad";
-                envir[key].assessment.style.color = "red";
                 alarmTitle += key + " ";
-              } else {
-                envir[key].assessment.innerHTML = "Good";
-                envir[key].assessment.style.color = "green";
+                //change assessment
+                if (Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1])) {
+                  envir[key].assessment[1].innerHTML = "Bad";
+                  envir[key].assessment[1].style.color = "red";
+                }
+                if (Number(data[key]["PM10"]) > Number(envir[key].threshold[0])) {
+                  envir[key].assessment[0].innerHTML = "Bad";
+                  envir[key].assessment[0].style.color = "red";
+                }
               }
+              else {
+                envir[key].assessment[0].innerHTML = "Good";
+                envir[key].assessment[0].style.color = "green";
+                envir[key].assessment[1].innerHTML = "Good";
+                envir[key].assessment[1].style.color = "green";
+              }
+              //other key
             } else if (Number(data[key]) < Number(envir[key].threshold[0]) || Number(data[key]) > Number(envir[key].threshold[1])) {
               envir[key].assessment.innerHTML = "Bad";
               envir[key].assessment.style.color = "red";
@@ -501,11 +551,12 @@
         }
       }
 
+      //show dialog if alarmTitle is not empty
       if (alarmTitle != "") {
         openDialogWithMessage("Cảnh báo", alarmTitle);
       }
 
-      let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, [data.dust["PM2.5"], data.dust["PM10"]], data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow, data.waterLevel]
+      let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, data.dust["PM2.5"], data.dust["PM10"], data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow /*, data.waterLevel*/]
       charts.forEach((chart, index) => {
         addData(chart, chartData[index])
         if (chart.data.datasets[0].data.length > 30) {
@@ -634,7 +685,7 @@
       control.humiUpThreshold = humiUpThreshold.value;
       control.co2Threshold = co2Threshold.value;
       control.coThreshold = coThreshold.value;
-      control.dust25Threhold = dust25Threshold.value;
+      control.dust25Threshold = dust25Threshold.value;
       control.dust10Threshold = dust10Threshold.value;
       control.tempThreshold = tempThreshold.value;
     }
@@ -682,10 +733,10 @@
       };
     }
 
-    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "NH3", ["Bụi PM2.5", "Bụi PM10"], "Nhiệt độ nước", "pH", "TDS", "Lưu lượng mưa", "Tốc độ gió", "Mực nước"]
-    let data = [25, 50, 1, 0.4, 1, [[0.4], [4]], 25, 7.0, 50, 2, 1, 0.4]
-    let colors = ["red", "green", "blue", "yellow", "cyan", ["purple", "#F06DD8"], "red", "green", "blue", "yellow", "cyan", "purple"]
-    let chartids = ["tempChart", "humiChart", "co2Chart", "coChart", "nh3Chart", "dustChart", "water_tempChart", "phChart", "tdsChart", "flowChart", "windSpeedChart", "wlevelChart"]
+    let labels = ["Nhiệt độ", "Độ ẩm", "CO2", "CO", "NH3", "Bụi PM2.5", "Bụi PM10", "Nhiệt độ nước", "pH", "TDS", "Lưu lượng mưa", "Tốc độ gió" /*, "Mực nước"*/]
+    let data = [25, 50, 1, 0.4, 1, 0.4, 4, 25, 7.0, 50, 2, 1, 0.4]
+    let colors = ["red", "green", "blue", "yellow", "cyan", "purple", "#F06DD8", "red", "green", "blue", "yellow", "cyan", "purple"]
+    let chartids = ["tempChart", "humiChart", "co2Chart", "coChart", "nh3Chart", "dust25Chart", "dust10Chart", "water_tempChart", "phChart", "tdsChart", "flowChart", "windSpeedChart"/*, "wlevelChart"*/]
     const charts = [];
     const chartConfigs = [];
     for (let i = 0; i < labels.length; i++) {
