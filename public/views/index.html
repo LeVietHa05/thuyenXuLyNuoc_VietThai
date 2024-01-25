@@ -177,6 +177,10 @@
         </div>
       </div>
     </div>
+
+    <div class="h2 mt-4 ">Vị trí hiện tại: <span id="location"></span></div>
+
+
     <!-- <div class="col rounded bg-lightPurple">
         <div class="row p-3">
           <div class="col-sm rounded text-center p-1 bg-lightPurple2">
@@ -418,8 +422,8 @@
         threshold: tdsThreshold.value,
         unit: "ppm",
         name: "TDS",
-        additionalAlert: "Tuyệt đối không uống nước này",
-        alertContent: `Chỉ số hiện tại: ${tds.innerText} ppm. Vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Tuyệt đối không uống nước này`
+        additionalAlert: "Nước bị ô nhiễm, tuyệt đối không sử dụng",
+        alertContent: `Chỉ số hiện tại: ${tds.innerText} ppm. Vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Nước bị ô nhiễm, tuyệt đối không sử dụng`
       },
       windSpeed: {
         number: flow,
@@ -492,9 +496,11 @@
       ph: 0,
       tempDS18B20: 0,
     }
+    const _location = document.getElementById("location");
 
     socket.on("/web/envir", (data) => {
       let alarmTitle = "";
+      _location.innerText = `[${data.lat}, ${data.lon}]`;
       for (let key in envir) {
         //skip refreshAlertContent function
         if (key == "refreshAlertContent") continue;
