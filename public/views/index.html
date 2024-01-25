@@ -409,7 +409,7 @@
         threshold: [phLowThreshold.value, phUpThreshold.value],
         unit: "",
         name: "pH",
-        additionalAlert: "Hãy điều chỉnh lại nồng độ pH",
+        additionalAlert: ["Nước mang tính acid", "Nước mang tính base"],
         alertContent: `Chỉ số hiện tại: ${ph.innerText}. Vượt ngưỡng cho phép: ${phLowThreshold.value} - ${phUpThreshold.value}. Hãy điều chỉnh lại nồng độ pH`
       },
       tds: {
@@ -450,7 +450,10 @@
         threshold: 100
       },
       refreshAlertContent: function (key) {
-        this[key].alertContent = `Chỉ số ${this[key].name} hiện tại: ${this[key].number.innerText} ${this[key].unit}. Vượt ngưỡng cho phép: ${this[key].threshold} ${this[key].unit}. ${this[key].additionalAlert}`
+        if (key == "ph") {
+          this[key].alertContent = `Chỉ số ${this[key].name} hiện tại: ${this[key].number.innerText} ${this[key].unit}. Vượt ngưỡng cho phép: ${typeof this[key].threshold != "object" ? this[key].threshold : `${this[key].threshold[0]} -  ${this[key].threshold[1]}`} ${this[key].unit}. ${this[key].additionalAlert[this[key].number.innerText > 7 ? 1 : 0]}`
+        } else
+          this[key].alertContent = `Chỉ số ${this[key].name} hiện tại: ${this[key].number.innerText} ${this[key].unit}. Vượt ngưỡng cho phép: ${typeof this[key].threshold != "object" ? this[key].threshold : `${this[key].threshold[0]} -  ${this[key].threshold[1]}`} ${this[key].unit}. ${this[key].additionalAlert}`
       }
     }
     let control = {
@@ -484,6 +487,12 @@
       console.log('Connected!');
     });
 
+    let lastData = {
+      tds: 0,
+      ph: 0,
+      tempDS18B20: 0,
+    }
+
     socket.on("/web/envir", (data) => {
       let alarmTitle = "";
       for (let key in envir) {
@@ -516,9 +525,14 @@
 
           if (typeof envir[key].threshold == "number" || typeof envir[key].threshold == "string") {
             if (Number(data[key]) > Number(envir[key].threshold)) {
-              envir[key].assessment.innerHTML = "Bad";
-              envir[key].assessment.style.color = "red";
-              alarmTitle += key + " ";
+              if (key == "tds" && lastData.tds == Number(data[key])) {
+                //do nothing if tds is the same
+              } else {
+                envir[key].assessment.innerHTML = "Bad";
+                envir[key].assessment.style.color = "red";
+                alarmTitle += key + " ";
+                lastData.tds = Number(data.tds);
+              }
             } else {
               envir[key].assessment.innerHTML = "Good";
               envir[key].assessment.style.color = "green";
@@ -526,10 +540,6 @@
           } else if (typeof envir[key].threshold == "object") {
             if (key == "dust") { //change to pm2.5 and pm10
               //add alarm title
-              console.log("dust here")
-              console.log(data[key]["PM2.5"])
-              console.log(envir[key].threshold[1])
-              console.log(Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1]))
               if (Number(data[key]["PM2.5"]) > Number(envir[key].threshold[1]) || Number(data[key]["PM10"]) > Number(envir[key].threshold[0])) {
                 alarmTitle += key + " ";
                 //change assessment
@@ -550,9 +560,15 @@
               }
               //other key
             } else if (Number(data[key]) < Number(envir[key].threshold[0]) || Number(data[key]) > Number(envir[key].threshold[1])) {
-              envir[key].assessment.innerHTML = "Bad";
-              envir[key].assessment.style.color = "red";
-              alarmTitle += key + " ";
+              if ((key == "ph" || key == "tempDS18B20") && lastData[key] == Number(data[key])) {
+                //do nothing if ph or tempDS18B20 is the same
+              } else {
+                alarmTitle += key + " ";
+                lastData.ph = Number(data.ph);
+                lastData.tempDS18B20 = Number(data.tempDS18B20);
+                envir[key].assessment.innerHTML = "Bad";
+                envir[key].assessment.style.color = "red";
+              }
             } else {
               envir[key].assessment.innerHTML = "Good";
               envir[key].assessment.style.color = "green";
