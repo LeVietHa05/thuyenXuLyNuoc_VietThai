@@ -426,7 +426,7 @@
         alertContent: `Chỉ số hiện tại: ${tds.innerText} ppm. Vượt ngưỡng cho phép: ${tdsThreshold.value} ppm. Nước bị ô nhiễm, tuyệt đối không sử dụng`
       },
       windSpeed: {
-        number: flow,
+        number: windSpeed,
         assessment: windSpeed_assessment,
         threshold: windSpeedThreshold.value,
         unit: "m/s",
@@ -435,7 +435,7 @@
         alertContent: `Chỉ số hiện tại: ${flow.innerText} m/s. Vượt ngưỡng cho phép: ${windSpeedThreshold.value} m/s. Hãy cẩn thận khi ra ngoài`
       },
       flow: {
-        number: windSpeed,
+        number: flow,
         assessment: flow_assessment,
         threshold: rainThreshold.value,
         unit: "ml/h",
