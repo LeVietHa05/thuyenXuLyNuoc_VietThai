@@ -588,7 +588,7 @@
         openDialogWithMessage("Cảnh báo", alarmTitle);
       }
 
-      let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, data.dust["PM2.5"], data.dust["PM10"], data.tempDS18B20, data.ph, data.tds, data.windSpeed, data.flow /*, data.waterLevel*/]
+      let chartData = [data.temp, data.humi, data.co2, data.co, data.NH4, data.dust["PM2.5"], data.dust["PM10"], data.tempDS18B20, data.ph, data.tds, data.flow, data.windSpeed  /*, data.waterLevel*/]
       charts.forEach((chart, index) => {
         addData(chart, chartData[index])
         if (chart.data.datasets[0].data.length > 30) {
