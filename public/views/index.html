@@ -220,16 +220,18 @@
           <input type="text" value="70" id="humiUpThreshold">
           <label for="co2Threshold">Ngưỡng CO2 (ppm): </label>
           <input type="text" value="1000" id="co2Threshold">
-          <label for="coThreshold">Ngưỡng CO (ppm): </label>
+          <label for="coThreshold">Ngưỡng CO (µg/Nm3): </label>
           <input type="text" value="30" id="coThreshold">
         </div>
         <div class="col">
-          <label for="dust25Threshold">Ngưỡng bụi PM2.5 (µg/m3): </label>
+          <label for="dust25Threshold">Ngưỡng bụi PM2.5 (µg/Nm3): </label>
           <input type="text" value="50" id="dust25Threshold">
-          <label for="dust10Threshold">Ngưỡng bụi PM10 (µg/m3): </label>
+          <label for="dust10Threshold">Ngưỡng bụi PM10 (µg/Nm3): </label>
           <input type="text" value="100" id="dust10Threshold">
           <label for="tempThreshold">Ngưỡng nhiệt độ (độ C): </label>
           <input type="text" value="35" id="tempThreshold">
+          <label for="nh3Threshold">Ngưỡng NH3 (µg/Nm3): </label>
+          <input type="text" value="200" id="nh3Threshold">
         </div>
       </div>
       <button id="set_envir" class="rounded bg-success mt-3" style="width: 20%; padding: 4px;">Đổi</button>
@@ -451,11 +453,11 @@
       NH4: {
         number: nh3,
         assessment: nh3_assessment,
-        threshold: 200,
+        threshold: nh3Threshold.value,
         unit: "µg/Nm3",
         name: "NH3",
         additionalAlert: "Ảnh hưởng đến sức khỏe",
-        alertContent: `Chỉ số hiện tại: ${nh3.innerText} µg/Nm3. Vượt ngưỡng cho phép: 200 µg/Nm3. Ảnh hưởng đến sức khỏe`
+        alertContent: `Chỉ số hiện tại: ${nh3.innerText} µg/Nm3. Vượt ngưỡng cho phép: ${nh3Threshold.value} µg/Nm3. Ảnh hưởng đến sức khỏe`
       },
       refreshAlertContent: function (key) {
         if (key == "ph") {
