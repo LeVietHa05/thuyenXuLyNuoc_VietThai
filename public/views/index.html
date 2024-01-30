@@ -64,7 +64,7 @@
           <div class="col rounded text-center p-1 bg-lightYellow2">
             <div class="h2">CO</div>
             <div id="co" class="h1">0.4</div>
-            <div>(ppm)</div>
+            <div>(µg/Nm3)</div>
             <div id="co_assessment">Good</div>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="coChart"> </canvas></div>
@@ -77,7 +77,7 @@
           <div class="col rounded text-center p-1 bg-lightCyan2">
             <div class="h2">NH3</div>
             <div id="nh3" class="h1">1</div>
-            <div>(mg/l)</div>
+            <div>(µg/Nm3)</div>
             <div id="nh3_assessment">Good</div>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="nh3Chart"> </canvas></div>
@@ -88,7 +88,7 @@
           <div class="col rounded text-center p-1 bg-lightPurple2">
             <div class="h2">Bụi mịn PM2.5</div>
             <div id="dust25" class="h3">PM2.5: 0.4 </div>
-            <div>(µg/m3)</div>
+            <div>(µg/Nm3)</div>
             <div id="dust25_assessment">Good</div>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dust25Chart"> </canvas>
@@ -102,7 +102,7 @@
           <div class="col-sm rounded text-center p-1 bg-lightPurple2">
             <div class="h2">Bụi PM10</div>
             <div id="dust10" class="h3">PM10: 4</div>
-            <div>(µg/m3)</div>
+            <div>(µg/Nm3)</div>
             <div id="dust10_assessment">Good</div>
           </div>
           <div class="col"> <canvas class="bg-light " style="width: auto; height: 100%;" id="dust10Chart"> </canvas>
@@ -221,7 +221,7 @@
           <label for="co2Threshold">Ngưỡng CO2 (ppm): </label>
           <input type="text" value="1000" id="co2Threshold">
           <label for="coThreshold">Ngưỡng CO (ppm): </label>
-          <input type="text" value="50" id="coThreshold">
+          <input type="text" value="30" id="coThreshold">
         </div>
         <div class="col">
           <label for="dust25Threshold">Ngưỡng bụi PM2.5 (µg/m3): </label>
@@ -384,19 +384,19 @@
         number: co,
         assessment: co_assessment,
         threshold: coThreshold.value,
-        unit: "ppm",
+        unit: "µg/Nm3",
         name: "CO",
         additionalAlert: "Hãy thông thoáng không khí",
-        alertContent: `Chỉ số hiện tại: ${co.innerText} ppm. Vượt ngưỡng cho phép: ${coThreshold.value} ppm. Hãy thông thoáng không khí`
+        alertContent: `Chỉ số hiện tại: ${co.innerText} µg/Nm3. Vượt ngưỡng cho phép: ${coThreshold.value} µg/Nm3. Hãy thông thoáng không khí`
       },
       dust: {
         number: [dust10, dust25],
         assessment: [dust10_assessment, dust25_assessment],
         threshold: [dust10Threshold.value, dust25Threshold.value],
-        unit: "µg/m3",
+        unit: "µg/Nm3",
         name: "bụi mịn",
         additionalAlert: "Hãy dùng khẩu trang",
-        alertContent: `Bụi vượt ngưỡng cho phép: PM2.5: ${dust25Threshold.value} µg/m3 / PM10: ${dust10Threshold.value} µg/m3. Hãy dùng khẩu trang`
+        alertContent: `Bụi vượt ngưỡng cho phép: PM2.5: ${dust25Threshold.value} µg/Nm3 / PM10: ${dust10Threshold.value} µg/Nm3. Hãy dùng khẩu trang`
       },
       tempDS18B20: {
         number: water_temp,
@@ -451,7 +451,11 @@
       NH4: {
         number: nh3,
         assessment: nh3_assessment,
-        threshold: 100
+        threshold: 200,
+        unit: "µg/Nm3",
+        name: "NH3",
+        additionalAlert: "Ảnh hưởng đến sức khỏe",
+        alertContent: `Chỉ số hiện tại: ${nh3.innerText} µg/Nm3. Vượt ngưỡng cho phép: 200 µg/Nm3. Ảnh hưởng đến sức khỏe`
       },
       refreshAlertContent: function (key) {
         if (key == "ph") {
