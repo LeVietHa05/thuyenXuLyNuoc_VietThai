@@ -8,7 +8,23 @@
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+  <style>
+    #map {
+      width: 60%;
+      margin: 24px auto;
+      height: 500px;
+    }
+     #marker {
+        background-image: url('https://www.svgrepo.com/show/252928/boat.svg');
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+     }
+  </style>
 </head>
 
 <body>
@@ -289,6 +305,9 @@
     </div>
   </div>
 
+  <div id="map"></div>
+
+
   <!-- dialog for notification -->
   <dialog id="dialog" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0;">
     <h1>title place holder</h1>
@@ -507,6 +526,12 @@
     socket.on("/web/envir", (data) => {
       let alarmTitle = "";
       _location.innerText = `[${data.lat}, ${data.lon}]`;
+      markLocation = [data.lat, data.lon];
+      marker.setLngLat(markLocation);
+      map.flyTo({
+        center: markLocation,
+        essential: true
+      });
       for (let key in envir) {
         //skip refreshAlertContent function
         if (key == "refreshAlertContent") continue;
@@ -801,6 +826,23 @@
       });
       chart.update();
     }
+  </script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoib2N0b2JvdDEyMyIsImEiOiJjbHN5Z3k5bHkwZW12MmxvNXJpdjFobnZoIn0.tTskUU1dsOUlk10liEWPmQ';
+    let markLocation =  [106.76571940937244, 21.84643762153595];
+    const map = new mapboxgl.Map({
+      container: 'map', // container ID
+      center: [ 106.76571940937244,21.84643762153595], // starting position [lng, lat]
+      zoom: 15 // starting zoom
+    })
+    const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+      'This is the current location'
+    );
+
+    const marker = new mapboxgl.Marker()
+      .setLngLat(markLocation)
+      .setPopup(popup) // sets a popup on this marker
+      .addTo(map);
   </script>
 </body>
 
